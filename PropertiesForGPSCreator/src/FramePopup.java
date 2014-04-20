@@ -88,17 +88,17 @@ public class FramePopup extends JFrame {
 				WriteProperties.saveId(typeIndex);
 				dispose();
 				System.gc();
-				Listeners.isOpen = false;
+				Main.f.isOpen = false;
 			} else if (typeIndex == 1) {
 				WriteProperties.saveId(typeIndex);
 				dispose();
 				System.gc();
-				Listeners.isOpen = false;
+				Main.f.isOpen = false;
 			} else if (typeIndex == 2) {
 				WriteProperties.saveId(typeIndex);
 				dispose();
 				System.gc();
-				Listeners.isOpen = false;
+				Main.f.isOpen = false;
 			}
 		} else {
 			JOptionPane.showMessageDialog(this, "Your " + getTitle().toLowerCase() + " is invalid.", "Error", JOptionPane.ERROR_MESSAGE);

@@ -27,6 +27,7 @@ public class MyFrame extends JFrame {
 	JPanel panel = new JPanel();
 	FramePopup popupAdd;
 	FramePopupSet popupSet;
+	public boolean isOpen = false;
 
 	String[][] itemsNames = {
 			{ "Quit", "Help", "English", "Français", "Add subject", "Add room", "Add commentary", "Set subject", "Set room", "Set commentary", "Group A", "Group B", "Group 1", "Group 2",
@@ -67,6 +68,7 @@ public class MyFrame extends JFrame {
 		pack();
 		variableInit();
 		updateTp();
+		popupMenu();
 		menusSetup();
 		setVisible(true);
 		repaint();
@@ -85,7 +87,7 @@ public class MyFrame extends JFrame {
 			items[i].setBackground(b);
 			items[i].setForeground(w);
 			items[i].addActionListener(new Listeners());
-		
+
 		}
 		// Create all menus which used in popup or menu bar. Set the name of
 		// each item using langId and item id in array : menus[].
@@ -136,6 +138,12 @@ public class MyFrame extends JFrame {
 		tab.addMouseListener(new Listeners());
 	}
 
+	private void popupMenu() {
+		pm.add(items[7]);
+		pm.add(items[8]);
+		pm.add(items[9]);
+	}
+
 	private void menusSetup() {
 		menus[0].add(items[0]);// Menu : File, add item : Quit
 		menus[1].add(items[4]);// Menu : Add things, add item : Add subject
@@ -154,11 +162,19 @@ public class MyFrame extends JFrame {
 		mb.repaint();
 	}
 
-	private void updateTp() {
+	void updateTp() {
 		// Set the debug text in the JTextPane tp. And repaint it after.
 		tp.setText("I love Anna <3<3 " + " || Selected cell [" + row + ";" + column + "] || Subject : " + PanelGrid.subjectPerCell[row][column] + "(" + idS + ") | Room : "
 				+ PanelGrid.roomPerCell[row][column] + "(" + idR + ") | Commentary : " + PanelGrid.commentaryPerCell[row][column] + "(" + idC + ") | Week : " + PanelGrid.weekName[idW] + "("
 				+ idW + ") | ");
 		tp.repaint();
+	}
+
+	void updateValues() {
+		row = Main.f.tab.getSelectedRow();
+		column = Main.f.tab.getSelectedColumn();
+		idS = PanelGrid.idSubjectPerCell[row][column];
+		idR = PanelGrid.idRoomPerCell[row][column];
+		idC = PanelGrid.idCommentaryPerCell[row][column];
 	}
 }
