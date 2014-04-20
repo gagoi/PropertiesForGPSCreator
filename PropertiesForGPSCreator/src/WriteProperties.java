@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class WriteProperties {
-	static String test;
 	static File file = new File("C:/Users/" + System.getProperty("user.name") + "/Desktop/HyperGPSDeLaMortXDPtdrLol/", "plan.properties");
 	static File path = new File("C:/Users/" + System.getProperty("user.name") + "/Desktop/HyperGPSDeLaMortXDPtdrLol/");
 	static File fileId = new File("C:/Users/" + System.getProperty("user.name") + "/Desktop/HyperGPSDeLaMortXDPtdrLol/", "id.properties");
