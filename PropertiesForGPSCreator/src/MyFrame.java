@@ -25,6 +25,9 @@ public class MyFrame extends JFrame {
 	JTextPane tp = new JTextPane();
 	JPopupMenu pm = new JPopupMenu();
 	JPanel panel = new JPanel();
+	FramePopup popupAdd;
+	FramePopupSet popupSet;
+	String test;
 
 	String[][] itemsNames = {
 			{ "Quit", "Help", "English", "Français", "Add subject", "Add room", "Add commentary", "Set subject", "Set room", "Set commentary", "Group A", "Group B", "Group 1", "Group 2",

@@ -7,9 +7,6 @@ import java.awt.event.WindowListener;
 
 public class Listeners implements MouseListener, ActionListener, WindowListener {
 	public static boolean isOpen = false;
-	FramePopup popupAdd;
-	FramePopupSet popupSet;
-	String test;
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
@@ -60,41 +57,43 @@ public class Listeners implements MouseListener, ActionListener, WindowListener 
 			break;
 		case 4:
 			// Add subject
+			System.out.println("Enter in Case 4");
 			isOpen = true;
-			test = "String Défini 0";
-			popupAdd = new FramePopup(0);
+			Main.f.test = "String Défini 0";
+			System.out.println("test : " + Main.f.test);
+			Main.f.popupAdd = new FramePopup(0);
 			break;
 		case 5:
 			// Add room
 			isOpen = true;
-			popupAdd = new FramePopup(1);
+			Main.f.popupAdd = new FramePopup(1);
 			break;
 		case 6:
 			// Add commentary
 			isOpen = true;
-			popupAdd = new FramePopup(2);
+			Main.f.popupAdd = new FramePopup(2);
 			break;
 		case 7:
 			// Set subject
 			isOpen = true;
-			popupSet = new FramePopupSet(0);
+			Main.f.popupSet = new FramePopupSet(0);
 			break;
 		case 8:
 			// Set room
 			isOpen = true;
-			popupSet = new FramePopupSet(1);
+			Main.f.popupSet = new FramePopupSet(1);
 			break;
 		case 9:
 			// Set commentary
 			isOpen = true;
-			popupSet = new FramePopupSet(2);
+			Main.f.popupSet = new FramePopupSet(2);
 			break;
 		default:
-			System.out.println("Truc muche || " + popupAdd);
+			System.out.println("Truc muche || " + Main.f.popupAdd);
 			if (isOpen == true) {
-				System.out.println("Merde || " + test);
-				popupAdd.validAddingId();
-			} else if (popupSet != null && src == popupSet.btnNewButton) popupSet.onButtonClicked();
+				System.out.println("Merde || " + Main.f.test);
+				Main.f.popupAdd.validAddingId();
+			} else if (Main.f.popupSet != null && src == Main.f.popupSet.btnNewButton) Main.f.popupSet.onButtonClicked();
 			break;
 		}
 		System.out.println("isOpen = " + isOpen);
