@@ -57,10 +57,7 @@ public class Listeners implements MouseListener, ActionListener, WindowListener 
 			break;
 		case 4:
 			// Add subject
-			System.out.println("Enter in Case 4");
 			isOpen = true;
-			Main.f.test = "String Défini 0";
-			System.out.println("test : " + Main.f.test);
 			Main.f.popupAdd = new FramePopup(0);
 			break;
 		case 5:
@@ -89,9 +86,7 @@ public class Listeners implements MouseListener, ActionListener, WindowListener 
 			Main.f.popupSet = new FramePopupSet(2);
 			break;
 		default:
-			System.out.println("Truc muche || " + Main.f.popupAdd);
 			if (isOpen == true) {
-				System.out.println("Merde || " + Main.f.test);
 				Main.f.popupAdd.validAddingId();
 			} else if (Main.f.popupSet != null && src == Main.f.popupSet.btnNewButton) Main.f.popupSet.onButtonClicked();
 			break;
