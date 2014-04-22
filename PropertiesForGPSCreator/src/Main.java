@@ -18,6 +18,7 @@ public class Main {
 				PanelGrid.fillTable();
 
 				f = new MyFrame();
+				f.tab.setComponentPopupMenu(f.pm);
 
 			}
 		});

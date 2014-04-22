@@ -6,12 +6,14 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
 public class Listeners implements MouseListener, ActionListener, WindowListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
+		mouseReleased(arg0);
 	}
 
 	@Override
@@ -24,6 +26,7 @@ public class Listeners implements MouseListener, ActionListener, WindowListener 
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
+		mouseReleased(arg0);
 	}
 
 	@Override
@@ -31,16 +34,11 @@ public class Listeners implements MouseListener, ActionListener, WindowListener 
 		Point p = arg0.getPoint();
 		Main.f.updateValues();
 		Main.f.updateTp();
-		Main.f.tab.changeSelection(Main.f.row, Main.f.column, false, false);
-		if (SwingUtilities.isRightMouseButton(arg0)) {
-			System.out.print("Right click : (" + p.x + ";" + p.y + ")");
-			if (!(Main.f.tab.rowAtPoint(p) <= -1 && Main.f.tab.rowAtPoint(p) < Main.f.tab.getRowCount() || Main.f.tab.columnAtPoint(p) <= 0)) {
-				System.out.println(" in the table (row=" + Main.f.tab.rowAtPoint(p) + "|column=" + Main.f.tab.columnAtPoint(p) + ").");
-				Main.f.pm.setVisible(true);
-				;
-			} else {
-				System.out.println(" out the available table.");
-			}
+		if (arg0.isPopupTrigger()) {
+			System.out.println(" in the table (row=" + Main.f.tab.rowAtPoint(p) + "|column=" + Main.f.tab.columnAtPoint(p) + ").");
+			System.out.println("x=" + arg0.getX() + " y=" + arg0.getY());
+			Main.f.pm.show(Main.f.tab, arg0.getX(), arg0.getY());
+			Main.f.tab.changeSelection(Main.f.tab.rowAtPoint(p), Main.f.tab.columnAtPoint(p), false, false);
 		}
 	}
 
