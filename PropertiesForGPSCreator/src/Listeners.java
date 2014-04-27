@@ -8,7 +8,6 @@ import java.awt.event.WindowListener;
 import javax.swing.SwingUtilities;
 
 public class Listeners implements ActionListener, WindowListener, MouseListener {
-
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		int index = -1;
@@ -44,40 +43,51 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 		case 4:
 			// Add subject
 			Main.f.isOpen = true;
+			Main.f.isAddOpen = true;
 			Main.f.popupAdd = new FramePopup(0);
 			break;
 		case 5:
 			// Add room
 			Main.f.isOpen = true;
+			Main.f.isAddOpen = true;
 			Main.f.popupAdd = new FramePopup(1);
 			break;
 		case 6:
 			// Add commentary
 			Main.f.isOpen = true;
+			Main.f.isAddOpen = true;
 			Main.f.popupAdd = new FramePopup(2);
 			break;
 		case 7:
 			// Set subject
 			Main.f.isOpen = true;
+			Main.f.isSetOpen = true;
 			Main.f.pm.setVisible(false);
 			Main.f.popupSet = new FramePopupSet(0);
 			break;
 		case 8:
 			// Set room
 			Main.f.isOpen = true;
+			Main.f.isSetOpen = true;
 			Main.f.pm.setVisible(false);
 			Main.f.popupSet = new FramePopupSet(1);
 			break;
 		case 9:
 			// Set commentary
 			Main.f.isOpen = true;
+			Main.f.isSetOpen = true;
 			Main.f.pm.setVisible(false);
 			Main.f.popupSet = new FramePopupSet(2);
 			break;
 		default:
-			if (Main.f.isOpen == true) {
-				Main.f.popupAdd.validAddingId();
-			} else if (Main.f.popupSet != null && src == Main.f.popupSet.btnNewButton) Main.f.popupSet.onButtonClicked();
+			if (Main.f.isOpen) {
+				if (Main.f.isAddOpen) {
+					Main.f.popupAdd.validAddingId();
+				} else if (Main.f.isSetOpen) {
+					System.out.println("Set Popup validate");
+					Main.f.popupSet.onButtonClicked();
+				}
+			}
 			break;
 		}
 		System.out.println("isOpen = " + Main.f.isOpen);

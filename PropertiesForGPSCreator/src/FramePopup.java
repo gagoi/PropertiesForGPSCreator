@@ -21,6 +21,7 @@ public class FramePopup extends JFrame {
 	private static int typeIndex;
 	ImageIcon imageForOne = new ImageIcon(getClass().getResource("ressources/coeur.jpg"));
 	JButton btnNewButton;
+	boolean isAddOpen;
 
 	public FramePopup(int typeIndexConstructor) {
 		LoadProperties.loadPropertiesId();

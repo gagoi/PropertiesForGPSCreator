@@ -11,24 +11,25 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
-public class FramePopupSet {
-	static JFrame popupSet = new JFrame();
+@SuppressWarnings("serial")
+public class FramePopupSet extends JFrame{
 	String[] truc = { "truc1", "truc2", "truc3" };
 	@SuppressWarnings("rawtypes")
 	JList list, listGroup, listWeek;
 	JLabel lblType = new JLabel();
 	JLabel lblGroup = new JLabel();
 	JLabel lblWeek = new JLabel();
-	private static int typeIndex;
+	private int typeIndex;
 	JButton btnNewButton;
+	boolean isSetOpen;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public FramePopupSet(int typeIndex) {
-		FramePopupSet.typeIndex = typeIndex;
-		popupSet.setResizable(false);
-		popupSet.setTitle(Utils.type[typeIndex]);
-		popupSet.setSize(new Dimension(500, 600));
-		popupSet.getContentPane().setLayout(null);
+		this.typeIndex = typeIndex;
+		setResizable(false);
+		setTitle(Utils.type[typeIndex]);
+		setSize(new Dimension(500, 600));
+		getContentPane().setLayout(null);
 		lblType.setText(Utils.type[typeIndex] + " : ");
 		
 		ImageIcon imageForOne = new ImageIcon(getClass().getResource("ressources/coeur.jpg"));
@@ -39,25 +40,25 @@ public class FramePopupSet {
 		if (Utils.language.equals("fr")) btnNewButton.setText("Mettre " + Utils.type[typeIndex].toLowerCase());
 		btnNewButton.setBounds(166, 505, imageForOne.getIconWidth(), imageForOne.getIconHeight());
 		btnNewButton.addActionListener(new Listeners());
-		popupSet.getContentPane().add(btnNewButton);
+		getContentPane().add(btnNewButton);
 	
 		lblType.setBounds(210, 25, 130, 15);
-		popupSet.getContentPane().add(lblType);
+		getContentPane().add(lblType);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(40, 45, 420, 115);
 		list = new JList(setListByType());
 		scrollPane.setViewportView(list);
-		popupSet.getContentPane().add(scrollPane);
+		getContentPane().add(scrollPane);
 
 		lblGroup.setText("Group :");
 		if(Utils.language.equals("fr")) lblGroup.setText("Groupe :");
 		lblGroup.setBounds(220, 185, 50, 15);
-		popupSet.getContentPane().add(lblGroup);
+		getContentPane().add(lblGroup);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(40, 205, 420, 115);
-		popupSet.getContentPane().add(scrollPane_1);
+		getContentPane().add(scrollPane_1);
 
 		listGroup = new JList(PanelGrid.groupName);
 		listGroup.setSelectedIndex(0);
@@ -66,19 +67,19 @@ public class FramePopupSet {
 		lblWeek.setText("Week :");
 		if(Utils.language.equals("fr")) lblWeek.setText("Semaine :");
 		lblWeek.setBounds(220, 345, 50, 15);
-		popupSet.getContentPane().add(lblWeek);
+		getContentPane().add(lblWeek);
 
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(40, 365, 420, 115);
-		popupSet.getContentPane().add(scrollPane_2);
+		getContentPane().add(scrollPane_2);
 
 		listWeek = new JList(PanelGrid.groupName);
 		listWeek.setSelectedIndex(0);
 		scrollPane_2.setViewportView(listWeek);
 
 		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("ressources/iconGPS.png"));
-		popupSet.setIconImage(icon);
-//		popupSet.getContentPane().setBackground(Color.PINK);
+		setIconImage(icon);
+//		getContentPane().setBackground(Color.PINK);
 //		list.setBackground(Color.RED);
 //		listGroup.setBackground(Color.RED);
 //		listWeek.setBackground(Color.RED);
@@ -95,16 +96,16 @@ public class FramePopupSet {
 		lblGroup.setForeground(Color.WHITE);
 		lblWeek.setForeground(Color.WHITE);
 		btnNewButton.setForeground(Color.BLACK);
-		popupSet.getContentPane().setBackground(Color.BLACK);
-		popupSet.addWindowListener(new Listeners());
-		popupSet.setVisible(true);
-		popupSet.repaint();
+		getContentPane().setBackground(Color.BLACK);
+		addWindowListener(new Listeners());
+		setVisible(true);
+		repaint();
 
 	}
 
 	public void onButtonClicked() {
 		if (!list.isSelectionEmpty() || list.getSelectedIndex() == 0) {
-			System.out.println("Valider " + popupSet.getTitle().toLowerCase());
+			System.out.println("Valider " + getTitle().toLowerCase());
 			setSelectedValue();
 			int x = Main.f.tab.getSelectedRow();
 			int y = Main.f.tab.getSelectedColumn();
@@ -148,8 +149,7 @@ public class FramePopupSet {
 			Main.f.tab.setValueAt("Error !!", x, y);
 		PanelGrid.groupIdPerCell[x][y] = listGroup.getSelectedIndex();
 		PanelGrid.weekIdPerCell[x][y] = listWeek.getSelectedIndex();
-		popupSet.dispose();
-		popupSet = null;
+		dispose();
 		System.gc();
 	}
 

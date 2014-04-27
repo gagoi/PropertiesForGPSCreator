@@ -27,7 +27,7 @@ public class MyFrame extends JFrame {
 	JPanel panel = new JPanel();
 	FramePopup popupAdd;
 	FramePopupSet popupSet;
-	public boolean isOpen = false;
+	public boolean isOpen, isSetOpen, isAddOpen;
 
 	String[][] itemsNames = {
 			{ "Quit", "Help", "English", "Français", "Add subject", "Add room", "Add commentary", "Set subject", "Set room", "Set commentary", "Group A", "Group B", "Group 1", "Group 2",
@@ -65,6 +65,7 @@ public class MyFrame extends JFrame {
 		setIconImage(icon);
 
 		setPreferredSize(new Dimension(1500, 720));
+		setMaximumSize(new Dimension(tab.getX(), tab.getY()));
 		pack();
 		variableInit();
 		updateTp();

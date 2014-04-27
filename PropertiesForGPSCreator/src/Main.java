@@ -10,6 +10,9 @@ public class Main {
 			public void run() {
 				System.out.println("I love Anna");
 				WriteProperties.createFiles();
+				LoadProperties.loadPropertiesId();
+				
+				LoadProperties.loadProperties();
 				// String fonts[] =
 				// GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 				// for (int i = 0; i < fonts.length; i++) {
