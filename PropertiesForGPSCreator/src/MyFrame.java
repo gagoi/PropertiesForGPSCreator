@@ -61,7 +61,7 @@ public class MyFrame extends JFrame {
 		getContentPane().add(tp, BorderLayout.SOUTH);
 		tp.setText("I love Anna <3<3<3");
 
-		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("/ressources/iconGPS.png"));
+		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("ressources/iconGPS.png"));
 		setIconImage(icon);
 
 		setPreferredSize(new Dimension(1500, 720));
@@ -163,19 +163,19 @@ public class MyFrame extends JFrame {
 	}
 
 	void updateTp() {
-		updateValues();
 		// Set the debug text in the JTextPane tp. And repaint it after.
 		tp.setText("I love Anna <3<3 " + " || Selected cell [" + row + ";" + column + "] || Subject : " + PanelGrid.subjectPerCell[row][column] + "(" + idS + ") | Room : "
 				+ PanelGrid.roomPerCell[row][column] + "(" + idR + ") | Commentary : " + PanelGrid.commentaryPerCell[row][column] + "(" + idC + ") | Week : " + PanelGrid.weekName[idW] + "("
 				+ idW + ") | ");
 		tp.repaint();
+		this.repaint();
 	}
 
 	void updateValues() {
-		row = Main.f.tab.getSelectedRow();
-		column = Main.f.tab.getSelectedColumn();
-		idS = PanelGrid.idSubjectPerCell[row][column];
-		idR = PanelGrid.idRoomPerCell[row][column];
-		idC = PanelGrid.idCommentaryPerCell[row][column];
+		this.row = Main.f.tab.getSelectedRow();
+		this.column = Main.f.tab.getSelectedColumn();
+		this.idS = PanelGrid.idSubjectPerCell[row][column];
+		this.idR = PanelGrid.idRoomPerCell[row][column];
+		this.idC = PanelGrid.idCommentaryPerCell[row][column];
 	}
 }

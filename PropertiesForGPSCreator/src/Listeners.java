@@ -5,6 +5,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.SwingUtilities;
+
 public class Listeners implements ActionListener, WindowListener, MouseListener {
 
 	@Override
@@ -124,12 +126,21 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 
 	}
 
-	
-	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		System.out.println("----Mouse clicked");
+		Main.f.updateValues();
 		Main.f.updateTp();
+		MyCellRenderer.x = Main.f.tab.rowAtPoint(arg0.getPoint());
+		MyCellRenderer.y = Main.f.tab.columnAtPoint(arg0.getPoint());
+		if (SwingUtilities.isRightMouseButton(arg0)) {
+			System.out.println("Button right");
+			Main.f.tab.changeSelection(Main.f.tab.rowAtPoint(arg0.getPoint()), Main.f.tab.columnAtPoint(arg0.getPoint()), false, false);
+			Main.f.pm.show(Main.f.tab, arg0.getX(), arg0.getY());
+		} else {
+			System.out.println("Button Left");
+		}
+
 	}
 
 	@Override

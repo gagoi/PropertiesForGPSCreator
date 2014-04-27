@@ -19,7 +19,7 @@ public class FramePopup extends JFrame {
 	public static JTextField textField_1;
 	String[] txtButton = { "Add", "Ajouter" };
 	private static int typeIndex;
-	ImageIcon imageForOne = new ImageIcon(getClass().getResource("/ressources/coeur.jpg"));
+	ImageIcon imageForOne = new ImageIcon(getClass().getResource("ressources/coeur.jpg"));
 	JButton btnNewButton;
 
 	public FramePopup(int typeIndexConstructor) {
@@ -69,7 +69,7 @@ public class FramePopup extends JFrame {
 
 		textField_1.setColumns(10);
 		pack();
-		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("/ressources/iconGPS.png"));
+		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("ressources/iconGPS.png"));
 		setIconImage(icon);
 
 		lblId.setForeground(Color.WHITE);

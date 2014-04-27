@@ -6,12 +6,17 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 @SuppressWarnings("serial")
 public class MyCellRenderer extends DefaultTableCellRenderer {
+	public static int x, y;
+
 	@SuppressWarnings("unused")
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		if (isSelected) {
-			setForeground(table.getSelectionForeground());
-			super.setBackground(table.getSelectionBackground());
+			setForeground(Color.GREEN);
+			super.setBackground(Color.GREEN);
+		} else if (row == x && column == y) {
+			super.setBackground(Color.BLUE);
+
 		} else if (PanelGrid.weekIdPerCell[row][column] == 1) {
 			super.setBackground(new Color(255, 200, 255));
 

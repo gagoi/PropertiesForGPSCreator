@@ -31,7 +31,7 @@ public class FramePopupSet {
 		popupSet.getContentPane().setLayout(null);
 		lblType.setText(Utils.type[typeIndex] + " : ");
 		
-		ImageIcon imageForOne = new ImageIcon(getClass().getResource("coeur.jpg"));
+		ImageIcon imageForOne = new ImageIcon(getClass().getResource("ressources/coeur.jpg"));
 		btnNewButton = new JButton("Set " + Utils.type[typeIndex].toLowerCase());
 		btnNewButton.setIcon(imageForOne);
 		btnNewButton.setHorizontalAlignment(AbstractButton.CENTER);
@@ -76,7 +76,7 @@ public class FramePopupSet {
 		listWeek.setSelectedIndex(0);
 		scrollPane_2.setViewportView(listWeek);
 
-		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("iconGPS.png"));
+		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("ressources/iconGPS.png"));
 		popupSet.setIconImage(icon);
 //		popupSet.getContentPane().setBackground(Color.PINK);
 //		list.setBackground(Color.RED);
