@@ -129,7 +129,7 @@ public class MyFrame extends JFrame {
 		tab.setForeground(w);
 		tab.setOpaque(true);
 		tab.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		tab.changeSelection(0, 0, false, false);
+		tab.changeSelection(0, 1, false, false);
 		tab.setRowSelectionAllowed(false);
 		// Set a new CellRenderer. It's using to set background color of a cell
 		// in function of parameters. See MyCellRenderer.class for more

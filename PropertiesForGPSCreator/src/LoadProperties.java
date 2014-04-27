@@ -53,7 +53,6 @@ public class LoadProperties extends WriteProperties {
 			Main.f.tab.setValueAt(value, row, dayIndex);
 			addIndexToArray(row, dayIndex, subjectId, roomId, commentaryId, weekIndex, groupId);
 		}
-//		Frame_Old.tab.repaint();
 	}
 
 	public static void addIndexToArray(int row, int column, int idSubject, int idRoom, int idCommentary, int weekIndex, int groupId) {
