@@ -1,46 +1,15 @@
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
+import javax.swing.JPopupMenu;
 
-public class Listeners implements MouseListener, ActionListener, WindowListener {
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		mouseReleased(arg0);
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		mouseReleased(arg0);
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		Point p = arg0.getPoint();
-		Main.f.updateValues();
-		Main.f.updateTp();
-		if (arg0.isPopupTrigger()) {
-			System.out.println(" in the table (row=" + Main.f.tab.rowAtPoint(p) + "|column=" + Main.f.tab.columnAtPoint(p) + ").");
-			System.out.println("x=" + arg0.getX() + " y=" + arg0.getY());
-			Main.f.pm.show(Main.f.tab, arg0.getX(), arg0.getY());
-			Main.f.tab.changeSelection(Main.f.tab.rowAtPoint(p), Main.f.tab.columnAtPoint(p), false, false);
-		}
-	}
+public class Listeners implements ActionListener, WindowListener, MouseListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -157,5 +126,28 @@ public class Listeners implements MouseListener, ActionListener, WindowListener 
 	public void windowOpened(WindowEvent arg0) {
 		// TODO Auto-generated method stub
 
+	}
+
+	
+	
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		System.out.println("----Mouse clicked");
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
 	}
 }
