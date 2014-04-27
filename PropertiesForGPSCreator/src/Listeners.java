@@ -1,13 +1,9 @@
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-
-import javax.swing.JPopupMenu;
 
 public class Listeners implements ActionListener, WindowListener, MouseListener {
 
@@ -133,6 +129,7 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		System.out.println("----Mouse clicked");
+		Main.f.updateTp();
 	}
 
 	@Override

@@ -61,7 +61,7 @@ public class MyFrame extends JFrame {
 		getContentPane().add(tp, BorderLayout.SOUTH);
 		tp.setText("I love Anna <3<3<3");
 
-		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("iconGPS.png"));
+		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("/ressources/iconGPS.png"));
 		setIconImage(icon);
 
 		setPreferredSize(new Dimension(1500, 720));
@@ -163,6 +163,7 @@ public class MyFrame extends JFrame {
 	}
 
 	void updateTp() {
+		updateValues();
 		// Set the debug text in the JTextPane tp. And repaint it after.
 		tp.setText("I love Anna <3<3 " + " || Selected cell [" + row + ";" + column + "] || Subject : " + PanelGrid.subjectPerCell[row][column] + "(" + idS + ") | Room : "
 				+ PanelGrid.roomPerCell[row][column] + "(" + idR + ") | Commentary : " + PanelGrid.commentaryPerCell[row][column] + "(" + idC + ") | Week : " + PanelGrid.weekName[idW] + "("
