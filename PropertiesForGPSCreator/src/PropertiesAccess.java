@@ -1,5 +1,3 @@
-
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,7 +8,14 @@ import java.util.Properties;
 
 public class PropertiesAccess {
 	// These values are using to load the properties.
-	String path = ("C:/Users/" + System.getProperty("user.name") + "/Desktop/HyperGPSDeLaMortXDPtdrLol/"); // Change this String to change the properties folder.
+	String path = ("C:/Users/" + System.getProperty("user.name") + "/Desktop/HyperGPSDeLaMortXDPtdrLol/"); // Change
+																											// this
+																											// String
+																											// to
+																											// change
+																											// the
+																											// properties
+																											// folder.
 	File plan = new File(path, "plan.properties"), id = new File(path, "id.properties");
 	Properties planProp = new Properties(), idProp = new Properties();
 	// These arrays contain the temporary values of properties names.
@@ -115,16 +120,19 @@ public class PropertiesAccess {
 		int dayIndex, hour, weekIndex, subjectId, roomId, commentaryId;
 		String hourComplet;
 
-		//For each values in properties planProp (File : plan.properties) :
+		// For each values in properties planProp (File : plan.properties) :
 		for (int i = 0; i < stringPropertyName(planProp).length; i++) {
-			//Get if is week A or B. We must do that here because of the char place is not the same when the week is A and B or all weeks.
+			// Get if is week A or B. We must do that here because of the char
+			// place is not the same when the week is A and B or all weeks.
 			if (planArray[i].toString().contains("A")) {
-				//Setup the week index : 0 = all weeks, 1 = week A, 2 = week B.
+				// Setup the week index : 0 = all weeks, 1 = week A, 2 = week B.
 				weekIndex = 1;
-				//Transform the hour part in the prop file from String to int.
+				// Transform the hour part in the prop file from String to int.
 				hourComplet = planArray[i].toString().substring(4);
 				hour = Integer.parseInt(hourComplet);
-				//Transform the day index (1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday, 7 = Sunday) from String to int.
+				// Transform the day index (1 = Monday, 2 = Tuesday, 3 =
+				// Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday, 7 =
+				// Sunday) from String to int.
 				dayIndex = Integer.parseInt(planArray[i].toString().substring(2, 3));
 			} else if (planArray[i].toString().contains("B")) {
 				weekIndex = 2;
@@ -137,7 +145,7 @@ public class PropertiesAccess {
 				hour = Integer.parseInt(hourComplet);
 				dayIndex = Integer.parseInt(planArray[i].toString().substring(0, 1));
 			}
-			//Get the values of each hour/day/week in the properties file.
+			// Get the values of each hour/day/week in the properties file.
 			subjectId = Integer.parseInt(planProp.getProperty(planArray[i].toString()).substring(0, 2));
 			roomId = Integer.parseInt(planProp.getProperty(planArray[i].toString()).substring(3, 6));
 			commentaryId = Integer.parseInt(planProp.getProperty(planArray[i].toString()).substring(7, 9));
@@ -145,16 +153,26 @@ public class PropertiesAccess {
 			System.out.println("Week : " + weekIndex + " | Day : " + dayIndex + " | Hour : " + hour + " || Subject ID : " + subjectId + " | Room ID : " + roomId + " | Commentary Id : "
 					+ commentaryId);
 
-			//Here we can get values to use it.
-			
+			// Here we can get values to use it.
+
 		}
 	}
 
-	
-	
+	void verifyFolderAndFile() {
+		try {
+			if (!new File(path).exists()) new File(path).mkdirs();
+			if (!plan.exists()) plan.createNewFile();
+			if (!id.exists()) id.createNewFile();
+		} catch (IOException e) {
+			System.err.println("Error when create one of the files/folders... Retry to launch the program.");
+			e.printStackTrace();
+		}
+	}
+
 	void LoadAll() {
+		verifyFolderAndFile();
 		loadIdAndplan();
 		transformTempIdArrayToFinalIDArray();
-		
+
 	}
 }
