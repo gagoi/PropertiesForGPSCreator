@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class PropertiesAccess {
 	// These values are using to load the properties.
-	String path = "/sdcard/HyperGPSDeLaMortXDPtdrLoL/"; // Change this String to change the properties folder.
+	String path = ("C:/Users/" + System.getProperty("user.name") + "/Desktop/HyperGPSDeLaMortXDPtdrLol/"); // Change this String to change the properties folder.
 	File plan = new File(path, "plan.properties"), id = new File(path, "id.properties");
 	Properties planProp = new Properties(), idProp = new Properties();
 	// These arrays contain the temporary values of properties names.
