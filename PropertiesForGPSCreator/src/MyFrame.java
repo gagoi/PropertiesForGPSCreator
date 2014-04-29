@@ -137,6 +137,7 @@ public class MyFrame extends JFrame {
 		tab.setDefaultRenderer(Object.class, new MyCellRenderer());
 		// Set listener in class Listeners, where all listeners are.
 		tab.addMouseListener(new Listeners());
+		PropertiesAccess.loadAll();
 	}
 
 	private void popupMenu() {

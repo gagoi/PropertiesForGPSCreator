@@ -12,7 +12,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
-public class FramePopupSet extends JFrame{
+public class FramePopupSet extends JFrame {
 	String[] truc = { "truc1", "truc2", "truc3" };
 	@SuppressWarnings("rawtypes")
 	JList list, listGroup, listWeek;
@@ -31,7 +31,7 @@ public class FramePopupSet extends JFrame{
 		setSize(new Dimension(500, 600));
 		getContentPane().setLayout(null);
 		lblType.setText(Utils.type[typeIndex] + " : ");
-		
+
 		ImageIcon imageForOne = new ImageIcon(getClass().getResource("ressources/coeur.jpg"));
 		btnNewButton = new JButton("Set " + Utils.type[typeIndex].toLowerCase());
 		btnNewButton.setIcon(imageForOne);
@@ -41,7 +41,7 @@ public class FramePopupSet extends JFrame{
 		btnNewButton.setBounds(166, 505, imageForOne.getIconWidth(), imageForOne.getIconHeight());
 		btnNewButton.addActionListener(new Listeners());
 		getContentPane().add(btnNewButton);
-	
+
 		lblType.setBounds(210, 25, 130, 15);
 		getContentPane().add(lblType);
 
@@ -52,7 +52,7 @@ public class FramePopupSet extends JFrame{
 		getContentPane().add(scrollPane);
 
 		lblGroup.setText("Group :");
-		if(Utils.language.equals("fr")) lblGroup.setText("Groupe :");
+		if (Utils.language.equals("fr")) lblGroup.setText("Groupe :");
 		lblGroup.setBounds(220, 185, 50, 15);
 		getContentPane().add(lblGroup);
 
@@ -65,7 +65,7 @@ public class FramePopupSet extends JFrame{
 		scrollPane_1.setViewportView(listGroup);
 
 		lblWeek.setText("Week :");
-		if(Utils.language.equals("fr")) lblWeek.setText("Semaine :");
+		if (Utils.language.equals("fr")) lblWeek.setText("Semaine :");
 		lblWeek.setBounds(220, 345, 50, 15);
 		getContentPane().add(lblWeek);
 
@@ -79,13 +79,13 @@ public class FramePopupSet extends JFrame{
 
 		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("ressources/iconGPS.png"));
 		setIconImage(icon);
-//		getContentPane().setBackground(Color.PINK);
-//		list.setBackground(Color.RED);
-//		listGroup.setBackground(Color.RED);
-//		listWeek.setBackground(Color.RED);
-//		list.setCellRenderer(new SelectedListCellRenderer());
-//		listGroup.setCellRenderer(new SelectedListCellRenderer());
-//		listWeek.setCellRenderer(new SelectedListCellRenderer());
+		// getContentPane().setBackground(Color.PINK);
+		// list.setBackground(Color.RED);
+		// listGroup.setBackground(Color.RED);
+		// listWeek.setBackground(Color.RED);
+		// list.setCellRenderer(new SelectedListCellRenderer());
+		// listGroup.setCellRenderer(new SelectedListCellRenderer());
+		// listWeek.setCellRenderer(new SelectedListCellRenderer());
 		list.setBackground(Color.BLACK);
 		list.setForeground(Color.WHITE);
 		listGroup.setBackground(Color.BLACK);
@@ -111,17 +111,29 @@ public class FramePopupSet extends JFrame{
 			int y = Main.f.tab.getSelectedColumn();
 			PanelGrid.updateTab(x, y, PanelGrid.subjectPerCell[x][y], PanelGrid.roomPerCell[x][y], PanelGrid.commentaryPerCell[x][y], PanelGrid.groupIdPerCell[x][y],
 					PanelGrid.weekIdPerCell[x][y]);
-			WriteProperties.modTabToProperties();
+			// WriteProperties.modTabToProperties();
+			PropertiesAccess.saveThePlanInProp(x, y);
 		}
 	}
 
+	// public String[] setListByType() {
+	// if (typeIndex == 0 && LoadProperties.subject != null) {
+	// return LoadProperties.subject;
+	// } else if (typeIndex == 1 && LoadProperties.room != null)
+	// return LoadProperties.room;
+	// else if (typeIndex == 2 && LoadProperties.commentary != null)
+	// return LoadProperties.commentary;
+	// else
+	// return truc;
+	// }
+
 	public String[] setListByType() {
-		if (typeIndex == 0 && LoadProperties.subject != null) {
-			return LoadProperties.subject;
-		} else if (typeIndex == 1 && LoadProperties.room != null)
-			return LoadProperties.room;
-		else if (typeIndex == 2 && LoadProperties.commentary != null)
-			return LoadProperties.commentary;
+		if (typeIndex == 0 && PanelGrid.subject != null)
+			return PanelGrid.subject;
+		else if (typeIndex == 1 && PanelGrid.room != null)
+			return PanelGrid.room;
+		else if (typeIndex == 2 && PanelGrid.commentary != null)
+			return PanelGrid.commentary;
 		else
 			return truc;
 	}
@@ -133,7 +145,7 @@ public class FramePopupSet extends JFrame{
 		System.out.println("Group - value selected : " + listGroup.getSelectedValue());
 		System.out.println("Week - index selected : " + listWeek.getSelectedIndex());
 		System.out.println("Week - value selected : " + listWeek.getSelectedValue());
-		
+
 		int x = Main.f.tab.getSelectedRow();
 		int y = Main.f.tab.getSelectedColumn();
 		if (typeIndex == 0) {
@@ -153,21 +165,20 @@ public class FramePopupSet extends JFrame{
 		System.gc();
 	}
 
-
-//	@Override
-//	public void windowClosing(WindowEvent e) {
-//		int x = Frame_Old.tab.getSelectedRow();
-//		int y = Frame_Old.tab.getSelectedColumn();
-//		if (typeIndex == 0) {
-//			PanelGrid.subjectPerCell[x][y] = null;
-//			PanelGrid.idSubjectPerCell[x][y] = 0;
-//		} else if (typeIndex == 1) {
-//			PanelGrid.roomPerCell[x][y] = null;
-//			PanelGrid.idRoomPerCell[x][y] = 0;
-//		} else if (typeIndex == 2) {
-//			PanelGrid.commentaryPerCell[x][y] = null;
-//			PanelGrid.idCommentaryPerCell[x][y] = 0;
-//		} else
-//			Frame_Old.tab.setValueAt("Error !!", x, y);
-//	}
+	// @Override
+	// public void windowClosing(WindowEvent e) {
+	// int x = Frame_Old.tab.getSelectedRow();
+	// int y = Frame_Old.tab.getSelectedColumn();
+	// if (typeIndex == 0) {
+	// PanelGrid.subjectPerCell[x][y] = null;
+	// PanelGrid.idSubjectPerCell[x][y] = 0;
+	// } else if (typeIndex == 1) {
+	// PanelGrid.roomPerCell[x][y] = null;
+	// PanelGrid.idRoomPerCell[x][y] = 0;
+	// } else if (typeIndex == 2) {
+	// PanelGrid.commentaryPerCell[x][y] = null;
+	// PanelGrid.idCommentaryPerCell[x][y] = 0;
+	// } else
+	// Frame_Old.tab.setValueAt("Error !!", x, y);
+	// }
 }

@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -10,18 +11,19 @@ import java.util.Properties;
 public class PropertiesAccess {
 	// These values are using to load the properties.
 	// Change this String to change the properties folder.
-	String path = ("C:/Users/" + System.getProperty("user.name") + "/Desktop/HyperGPSDeLaMortXDPtdrLol/");
-	File plan = new File(path, "plan.properties"), id = new File(path, "id.properties");
-	Properties planProp = new Properties(), idProp = new Properties();
+	static String path = ("C:/Users/" + System.getProperty("user.name") + "/Desktop/HyperGPSDeLaMortXDPtdrLol/");
+	static File plan = new File(path, "plan.properties"), id = new File(path, "id.properties");
+	static Properties planProp = new Properties(), idProp = new Properties();
 	// These arrays contain the temporary values of properties names.
-	String idArray[], planArray[];
+	static String idArray[];
+	static String planArray[];
 	// Theses arrays contain the id (using index) and the value per type
 	// (subject, room, commentary). id 0 = null.
-	String[] idSubject, idRoom, idCommentary;
-	int[] nbOfIdUse = { 1, 1, 1 };
+	static String[] idSubject, idRoom, idCommentary;
+	static int[] nbOfIdUse = { 1, 1, 1 };
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	Object[] stringPropertyName(Properties prop) {
+	static Object[] stringPropertyName(Properties prop) {
 		// Put all properties name in enumeration e.
 		Enumeration e = prop.propertyNames();
 		// Create a hashmap to put in the value of e, one by one.
@@ -39,7 +41,7 @@ public class PropertiesAccess {
 		return c.toArray();
 	}
 
-	void loadIdAndplan() {
+	static void loadIdAndplan() {
 		// Try to load the properties files.
 		try {
 			System.out.println("\rLoad :");
@@ -59,7 +61,7 @@ public class PropertiesAccess {
 		}
 	}
 
-	void transformTempIdArrayToFinalIDArray() {
+	static void transformTempIdArrayToFinalIDArray() {
 		// These int are using to got the number of values with each
 		// parameters (example : a = number of subject in properties file)
 		int a = 1, b = 1, c = 1;
@@ -92,69 +94,69 @@ public class PropertiesAccess {
 			// This three loops convert the temporary arrays in final arrays
 			// with the good length.
 			if (a != 1) {
-				idSubject = new String[a];
+				PanelGrid.subject = new String[a];
 				for (int y = 0; y < a; y++) {
-					idSubject[y] = subjectTemp[y];
+					PanelGrid.subject[y] = subjectTemp[y];
 				}
 			}
 			if (b != 1) {
-				idRoom = new String[b];
+				PanelGrid.room = new String[b];
 				for (int y = 0; y < b; y++) {
-					idRoom[y] = roomTemp[y];
+					PanelGrid.room[y] = roomTemp[y];
 				}
 			}
 			if (c != 1) {
-				idCommentary = new String[c];
+				PanelGrid.commentary = new String[c];
 				for (int y = 0; y < c; y++) {
-					idCommentary[y] = commentaryTemp[y];
+					PanelGrid.commentary[y] = commentaryTemp[y];
 				}
 			}
 		}
 	}
 
 	void getPlan() {
-		int dayIndex, hour, weekIndex, subjectId, roomId, commentaryId;
+		int dayIndex, hour, weekIndex, subjectId, roomId, commentaryId, groupIndex;
 		String hourComplet;
-
+//		Object propArrayRow = stringPropertyName(planProp);
 		// For each values in properties planProp (File : plan.properties) :
 		for (int i = 0; i < stringPropertyName(planProp).length; i++) {
-			// Get if is week A or B. We must do that here because of the char
-			// place is not the same when the week is A and B or all weeks.
-			if (planArray[i].toString().contains("A")) {
-				// Setup the week index : 0 = all weeks, 1 = week A, 2 = week B.
-				weekIndex = 1;
-				// Transform the hour part in the prop file from String to int.
-				hourComplet = planArray[i].toString().substring(4);
-				hour = Integer.parseInt(hourComplet);
-				// Transform the day index (1 = Monday, 2 = Tuesday, 3 =
-				// Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday, 7 =
-				// Sunday) from String to int.
-				dayIndex = Integer.parseInt(planArray[i].toString().substring(2, 3));
-			} else if (planArray[i].toString().contains("B")) {
-				weekIndex = 2;
-				hourComplet = planArray[i].toString().substring(4);
-				hour = Integer.parseInt(hourComplet);
-				dayIndex = Integer.parseInt(planArray[i].toString().substring(2, 3));
-			} else {
-				weekIndex = 0;
-				hourComplet = planArray[i].toString().substring(2);
-				hour = Integer.parseInt(hourComplet);
-				dayIndex = Integer.parseInt(planArray[i].toString().substring(0, 1));
+				weekIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(4, 5));
+				groupIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(1, 2));
+				dayIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(7, 8));
+				hour = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(9, 13));
+				hourComplet = stringPropertyName(planProp)[i].toString().substring(9, 11) + ":" + stringPropertyName(planProp)[i].toString().substring(11, 13);
+
+				subjectId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(0, 2));
+				roomId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(3, 6));
+				commentaryId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(7, 9));
+
+				System.out.println("Week : " + weekIndex + " | Day : " + dayIndex + " | Hour : " + hour + " || Subject ID : " + subjectId + " | Room ID : " + roomId + " | Commentary Id : "
+						+ commentaryId);
+				addToJTable(dayIndex, hourComplet, weekIndex, subjectId, roomId, commentaryId, groupIndex);
 			}
-			// Get the values of each hour/day/week in the properties file.
-			subjectId = Integer.parseInt(planProp.getProperty(planArray[i].toString()).substring(0, 2));
-			roomId = Integer.parseInt(planProp.getProperty(planArray[i].toString()).substring(3, 6));
-			commentaryId = Integer.parseInt(planProp.getProperty(planArray[i].toString()).substring(7, 9));
+	}
 
-			System.out.println("Week : " + weekIndex + " | Day : " + dayIndex + " | Hour : " + hour + " || Subject ID : " + subjectId + " | Room ID : " + roomId + " | Commentary Id : "
-					+ commentaryId);
-
-			// Here we can get values to use it.
-
+	static void addToJTable(int dayIndex, String hourComplet, int weekIndex, int subjectId, int roomId, int commentaryId, int groupId) {
+		System.out.println(PanelGrid.subject[subjectId] + " - " + PanelGrid.room[roomId] + " - " + PanelGrid.commentary[commentaryId]);
+		String value = PanelGrid.subject[subjectId] + " - " + PanelGrid.room[roomId] + " - " + PanelGrid.commentary[commentaryId];
+		String hourModified = hourComplet.substring(0, 2) + ":" + hourComplet.substring(2, 4);
+		System.out.println("-------------------" + hourComplet + " | " + hourModified + "-------------------");
+		int row = Arrays.asList(PanelGrid.plan).indexOf(hourModified);
+		System.out.println("Row = " + row + " | " + hourModified);
+		if (row != -1) {
+			Main.f.tab.setValueAt(value, row, dayIndex);
+			addIndexToArray(row, dayIndex, subjectId, roomId, commentaryId, weekIndex, groupId);
 		}
 	}
 
-	void verifyFolderAndFile() {
+	static void addIndexToArray(int row, int column, int idSubject, int idRoom, int idCommentary, int weekIndex, int groupId) {
+		PanelGrid.idSubjectPerCell[row][column] = idSubject;
+		PanelGrid.idRoomPerCell[row][column] = idRoom;
+		PanelGrid.idCommentaryPerCell[row][column] = idCommentary;
+		PanelGrid.weekIdPerCell[row][column] = weekIndex;
+		PanelGrid.weekIdPerCell[row][column] = groupId;
+	}
+	static void verifyFolderAndFile() {
 		try {
 			if (!new File(path).exists()) new File(path).mkdirs();
 			if (!plan.exists()) plan.createNewFile();
@@ -165,7 +167,7 @@ public class PropertiesAccess {
 		}
 	}
 
-	void saveThePlanInProp(int row, int column) {
+	static void saveThePlanInProp(int row, int column) {
 		String name, value;
 		String s, r, c;
 		name = value = s = r = c = null;
@@ -201,7 +203,7 @@ public class PropertiesAccess {
 
 	}
 
-	void saveTheIdinProp(int typeIndex) {
+	static void saveTheIdinProp(int typeIndex) {
 		String[] type = { "Subject", "Room", "Commentary" };
 		idProp.setProperty(type[typeIndex].toLowerCase() + "." + nbOfIdUse[typeIndex], FramePopup.textField_1.getText());
 		System.out.println(type[typeIndex].toLowerCase() + "." + nbOfIdUse[typeIndex] + "=" + FramePopup.textField_1.getText());
@@ -213,7 +215,7 @@ public class PropertiesAccess {
 		}
 	}
 
-	void LoadAll() {
+	static void loadAll() {
 		verifyFolderAndFile();
 		loadIdAndplan();
 		transformTempIdArrayToFinalIDArray();

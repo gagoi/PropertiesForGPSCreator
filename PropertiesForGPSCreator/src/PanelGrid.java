@@ -10,13 +10,18 @@ public class PanelGrid {
 	// For the 2 next array, Id : 0 = rien; 1 = A; 2 = B; 3 = 1; 4 = 2; 5 = 3;
 			groupIdPerCell = new int[48][8], weekIdPerCell = new int[48][8];
 	static String values[][] = new String[48][8];
+	
+	public static String[] subject, room, commentary;
 
 	public static void fillTable() {
+		//Create the tab.
 		for (int i = 0; i < values.length; i++) {
 			values[i][0] = plan[i];
 		}
+		//Load the plan in properties. And add to the array values.
+		PropertiesAccess.loadAll();
 	}
-
+	
 	public static void updateTab(int row, int column, String subject, String room, String commentary, int groupId, int weekId) {
 		String textInTab = subject + " - " + room + " - " + commentary + " - " + groupName[groupId] + " - " + weekName[weekId];
 		Main.f.tab.setValueAt(textInTab, row, column);

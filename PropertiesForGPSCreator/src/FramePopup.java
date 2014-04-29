@@ -24,12 +24,14 @@ public class FramePopup extends JFrame {
 	boolean isAddOpen;
 
 	public FramePopup(int typeIndexConstructor) {
-		LoadProperties.loadPropertiesId();
+		// LoadProperties.loadPropertiesId();
+		PropertiesAccess.loadAll();
 		typeIndex = typeIndexConstructor;
 		if (Utils.langId == 1) FramePopup.typeIndex += 3;
 		setResizable(false);
 		setTitle("Add " + Utils.type[typeIndex].toLowerCase());
-		WriteProperties.nbOfIDUse = idInProp();
+		// WriteProperties.nbOfIDUse = idInProp();
+		PropertiesAccess.nbOfIdUse = idInProp();
 		setPreferredSize(new Dimension(250, 150));
 		getContentPane().setLayout(null);
 
@@ -85,18 +87,9 @@ public class FramePopup extends JFrame {
 
 	public void validAddingId() {
 		if (!textField_1.getText().isEmpty()) {
-			if (typeIndex == 0) {
-				WriteProperties.saveId(typeIndex);
-				dispose();
-				System.gc();
-				Main.f.isOpen = false;
-			} else if (typeIndex == 1) {
-				WriteProperties.saveId(typeIndex);
-				dispose();
-				System.gc();
-				Main.f.isOpen = false;
-			} else if (typeIndex == 2) {
-				WriteProperties.saveId(typeIndex);
+			if (typeIndex == 0 || typeIndex == 1 || typeIndex == 2) {
+				// WriteProperties.saveId(typeIndex);
+				PropertiesAccess.saveTheIdinProp(typeIndex);
 				dispose();
 				System.gc();
 				Main.f.isOpen = false;
@@ -108,10 +101,14 @@ public class FramePopup extends JFrame {
 
 	public int[] idInProp() {
 		LoadProperties.loadPropertiesId();
+		PropertiesAccess.loadAll();
 		int s = 1, r = 1, c = 1;
-		if (LoadProperties.subject != null) s = LoadProperties.subject.length;
-		if (LoadProperties.room != null) r = LoadProperties.room.length;
-		if (LoadProperties.commentary != null) c = LoadProperties.commentary.length;
+//		if (LoadProperties.subject != null) s = LoadProperties.subject.length;
+//		if (LoadProperties.room != null) r = LoadProperties.room.length;
+//		if (LoadProperties.commentary != null) c = LoadProperties.commentary.length;
+		if(PanelGrid.subject != null) s = PanelGrid.subject.length;
+		if(PanelGrid.room != null) s = PanelGrid.room.length;
+		if(PanelGrid.commentary != null) s = PanelGrid.commentary.length;
 		int a[] = { s, r, c };
 		return a;
 	}
