@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -8,14 +9,8 @@ import java.util.Properties;
 
 public class PropertiesAccess {
 	// These values are using to load the properties.
-	String path = ("C:/Users/" + System.getProperty("user.name") + "/Desktop/HyperGPSDeLaMortXDPtdrLol/"); // Change
-																											// this
-																											// String
-																											// to
-																											// change
-																											// the
-																											// properties
-																											// folder.
+	// Change this String to change the properties folder.
+	String path = ("C:/Users/" + System.getProperty("user.name") + "/Desktop/HyperGPSDeLaMortXDPtdrLol/");
 	File plan = new File(path, "plan.properties"), id = new File(path, "id.properties");
 	Properties planProp = new Properties(), idProp = new Properties();
 	// These arrays contain the temporary values of properties names.
@@ -23,6 +18,7 @@ public class PropertiesAccess {
 	// Theses arrays contain the id (using index) and the value per type
 	// (subject, room, commentary). id 0 = null.
 	String[] idSubject, idRoom, idCommentary;
+	int[] nbOfIdUse = { 1, 1, 1 };
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	Object[] stringPropertyName(Properties prop) {
@@ -169,10 +165,57 @@ public class PropertiesAccess {
 		}
 	}
 
+	void saveThePlanInProp(int row, int column) {
+		String name, value;
+		String s, r, c;
+		name = value = s = r = c = null;
+		// Verify the prop. If all is empty, don't save.
+		if (!(PanelGrid.idSubjectPerCell[row][column] == 0) && !(PanelGrid.idRoomPerCell[row][column] == 0) && !(PanelGrid.idCommentaryPerCell[row][column] == 0)) {
+			s = "" + PanelGrid.idSubjectPerCell[row][column];
+			r = "" + PanelGrid.idRoomPerCell[row][column];
+			c = "" + PanelGrid.idCommentaryPerCell[row][column];
+
+			if (PanelGrid.idSubjectPerCell[row][column] == 0) s = "00";
+			if (PanelGrid.idRoomPerCell[row][column] == 0) r = "000";
+			if (PanelGrid.idCommentaryPerCell[row][column] == 0) c = "00";
+
+			if (PanelGrid.idSubjectPerCell[row][column] < 10) s = "0" + PanelGrid.idSubjectPerCell[row][column];
+			if (PanelGrid.idRoomPerCell[row][column] < 10) r = "00" + PanelGrid.idRoomPerCell[row][column];
+			if (PanelGrid.idRoomPerCell[row][column] < 100 && PanelGrid.idRoomPerCell[row][column] >= 10) r = "0" + PanelGrid.idRoomPerCell[row][column];
+			if (PanelGrid.idCommentaryPerCell[row][column] < 10) c = "0" + PanelGrid.idCommentaryPerCell[row][column];
+
+			// Create the property name. Example : G0.W1.D6.1230
+			name = "G" + PanelGrid.groupIdPerCell[row][column] + ".W" + PanelGrid.weekIdPerCell[row][column] + ".D" + column + "." + PanelGrid.plan[row].replace(":", "").toString();
+			// Create the property value. Example : 12 642 04
+			value = s + "." + r + "." + c;
+			// Set property.
+			planProp.setProperty(name, value);
+
+			// Save the prop just set before.
+			try {
+				planProp.store(new FileOutputStream(plan), null);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	void saveTheIdinProp(int typeIndex) {
+		String[] type = { "Subject", "Room", "Commentary" };
+		idProp.setProperty(type[typeIndex].toLowerCase() + "." + nbOfIdUse[typeIndex], FramePopup.textField_1.getText());
+		System.out.println(type[typeIndex].toLowerCase() + "." + nbOfIdUse[typeIndex] + "=" + FramePopup.textField_1.getText());
+		nbOfIdUse[typeIndex]++;
+		try {
+			idProp.store(new FileOutputStream(id), null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	void LoadAll() {
 		verifyFolderAndFile();
 		loadIdAndplan();
 		transformTempIdArrayToFinalIDArray();
-
 	}
 }
