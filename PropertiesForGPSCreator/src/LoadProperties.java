@@ -27,11 +27,11 @@ public class LoadProperties extends WriteProperties {
 		System.out.println("\r");
 		for (int i = 0; i < prop.stringPropertyNames().toArray().length; i++) {
 			weekIndex = Integer.parseInt(propArray[i].toString().substring(4, 5));
-			groupIndex = Integer.parseInt(propArray[i].toString().substring(1, 2));  
+			groupIndex = Integer.parseInt(propArray[i].toString().substring(1, 2));
 			dayIndex = Integer.parseInt(propArray[i].toString().substring(7, 8));
 			hour = Integer.parseInt(propArray[i].toString().substring(9, 13));
 			hourComplet = propArray[i].toString().substring(9, 11) + ":" + propArray[i].toString().substring(11, 13);
-			
+
 			subjectId = Integer.parseInt(prop.getProperty(propArray[i].toString()).substring(0, 2));
 			roomId = Integer.parseInt(prop.getProperty(propArray[i].toString()).substring(3, 6));
 			commentaryId = Integer.parseInt(prop.getProperty(propArray[i].toString()).substring(7, 9));
@@ -67,7 +67,8 @@ public class LoadProperties extends WriteProperties {
 		System.out.println("\rLoad Id");
 		try {
 			// These int are using to got the number of values with each
-			// parameters (ex : a = number of subject in properties file)
+			// parameters (ex : a = number of subject in properties file).
+			// We start at 1 because id 0 is the null object.
 			int a = 1, b = 1, c = 1;
 
 			// Load the properties file and get an array of the parameters in
