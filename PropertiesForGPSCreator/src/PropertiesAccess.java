@@ -44,7 +44,7 @@ public class PropertiesAccess {
 	static void loadIdAndplan() {
 		// Try to load the properties files.
 		try {
-			System.out.println("\rLoad :");
+			System.out.println("\rLoad");
 			// Load the file and setup the properties object (idProp and
 			// planProp).
 			idProp.load(new FileInputStream(id));
@@ -54,8 +54,12 @@ public class PropertiesAccess {
 			planArray = new String[stringPropertyName(planProp).length];
 			// Add the values in the arrays using stringPropertyNames()
 			// function.
-			idArray = (String[]) stringPropertyName(idProp);
-			planArray = (String[]) stringPropertyName(planProp);
+			for (int i = 0; i < stringPropertyName(idProp).length; i++) {
+				idArray[i] = (String) stringPropertyName(idProp)[i];
+			}
+			for (int i = 0; i < stringPropertyName(planProp).length; i++) {
+				planArray[i] = (String) stringPropertyName(planProp)[i];
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -114,36 +118,38 @@ public class PropertiesAccess {
 		}
 	}
 
-	void getPlan() {
+	static void getPlan() {
 		int dayIndex, hour, weekIndex, subjectId, roomId, commentaryId, groupIndex;
 		String hourComplet;
-//		Object propArrayRow = stringPropertyName(planProp);
+		// Object propArrayRow = stringPropertyName(planProp);
 		// For each values in properties planProp (File : plan.properties) :
 		for (int i = 0; i < stringPropertyName(planProp).length; i++) {
-				weekIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(4, 5));
-				groupIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(1, 2));
-				dayIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(7, 8));
-				hour = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(9, 13));
-				hourComplet = stringPropertyName(planProp)[i].toString().substring(9, 11) + ":" + stringPropertyName(planProp)[i].toString().substring(11, 13);
+			weekIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(4, 5));
+			groupIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(1, 2));
+			dayIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(7, 8));
+			hour = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(9, 13));
+			hourComplet = stringPropertyName(planProp)[i].toString().substring(9, 11) + ":" + stringPropertyName(planProp)[i].toString().substring(11, 13); // <-------- Erreur
 
-				subjectId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(0, 2));
-				roomId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(3, 6));
-				commentaryId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(7, 9));
+			subjectId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(0, 2));
+			roomId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(3, 6));
+			commentaryId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(7, 9));
 
-				System.out.println("Week : " + weekIndex + " | Day : " + dayIndex + " | Hour : " + hour + " || Subject ID : " + subjectId + " | Room ID : " + roomId + " | Commentary Id : "
-						+ commentaryId);
-				addToJTable(dayIndex, hourComplet, weekIndex, subjectId, roomId, commentaryId, groupIndex);
-			}
+			System.out.println(stringPropertyName(planProp)[i]);
+			System.out.println("Group : " + groupIndex + "Week : " + weekIndex + " | Day : " + dayIndex + " | Hour : " + hour + " || Subject ID : " + subjectId + " | Room ID : " + roomId
+					+ " | Commentary Id : " + commentaryId);
+			addToJTable(dayIndex, hourComplet, weekIndex, subjectId, roomId, commentaryId, groupIndex);
+		}
 	}
 
 	static void addToJTable(int dayIndex, String hourComplet, int weekIndex, int subjectId, int roomId, int commentaryId, int groupId) {
 		System.out.println(PanelGrid.subject[subjectId] + " - " + PanelGrid.room[roomId] + " - " + PanelGrid.commentary[commentaryId]);
 		String value = PanelGrid.subject[subjectId] + " - " + PanelGrid.room[roomId] + " - " + PanelGrid.commentary[commentaryId];
-		String hourModified = hourComplet.substring(0, 2) + ":" + hourComplet.substring(2, 4);
+		String hourModified = hourComplet.substring(0, 2) + ":" + hourComplet.substring(3, 5);
 		System.out.println("-------------------" + hourComplet + " | " + hourModified + "-------------------");
 		int row = Arrays.asList(PanelGrid.plan).indexOf(hourModified);
-		System.out.println("Row = " + row + " | " + hourModified);
+		System.out.println("Row = " + row + " | Hour modified : " + hourModified + " | Value : " + value + " | Day index : " + dayIndex);
 		if (row != -1) {
+			System.err.println("hrehghzthjtrzbfgb    ");
 			Main.f.tab.setValueAt(value, row, dayIndex);
 			addIndexToArray(row, dayIndex, subjectId, roomId, commentaryId, weekIndex, groupId);
 		}
@@ -156,6 +162,7 @@ public class PropertiesAccess {
 		PanelGrid.weekIdPerCell[row][column] = weekIndex;
 		PanelGrid.weekIdPerCell[row][column] = groupId;
 	}
+
 	static void verifyFolderAndFile() {
 		try {
 			if (!new File(path).exists()) new File(path).mkdirs();

@@ -72,6 +72,7 @@ public class MyFrame extends JFrame {
 		popupMenu();
 		menusSetup();
 		setVisible(true);
+		PropertiesAccess.getPlan();
 		repaint();
 	}
 

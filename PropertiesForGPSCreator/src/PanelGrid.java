@@ -18,8 +18,6 @@ public class PanelGrid {
 		for (int i = 0; i < values.length; i++) {
 			values[i][0] = plan[i];
 		}
-		//Load the plan in properties. And add to the array values.
-		PropertiesAccess.loadAll();
 	}
 	
 	public static void updateTab(int row, int column, String subject, String room, String commentary, int groupId, int weekId) {

@@ -35,11 +35,12 @@ public class FramePopup extends JFrame {
 		setPreferredSize(new Dimension(250, 150));
 		getContentPane().setLayout(null);
 
-		JLabel lblId = new JLabel("id : " + WriteProperties.next[typeIndex]);
+//		JLabel lblId = new JLabel("id : " + WriteProperties.next[typeIndex]);
+		JLabel lblId = new JLabel("id : " + PropertiesAccess.nbOfIdUse[typeIndex]+1);
 		JLabel lblType = new JLabel(Utils.type[typeIndex] + " : ");
 		textField_1 = new JTextField();
 		btnNewButton = new JButton(imageForOne);
-		btnNewButton.setText(txtButton[Utils.langId] + " " + Utils.type[typeIndexConstructor].toLowerCase());
+		btnNewButton.setText(txtButton[Utils.langId] + " " + Utils.type[typeIndex].toLowerCase());
 		btnNewButton.setHorizontalAlignment(AbstractButton.CENTER);
 		btnNewButton.setHorizontalTextPosition(0);
 		btnNewButton.setBounds(49, 66, imageForOne.getIconWidth(), imageForOne.getIconHeight());
@@ -100,7 +101,7 @@ public class FramePopup extends JFrame {
 	}
 
 	public int[] idInProp() {
-		LoadProperties.loadPropertiesId();
+//		LoadProperties.loadPropertiesId();
 		PropertiesAccess.loadAll();
 		int s = 1, r = 1, c = 1;
 //		if (LoadProperties.subject != null) s = LoadProperties.subject.length;
