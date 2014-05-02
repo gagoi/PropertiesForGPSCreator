@@ -20,7 +20,7 @@ import javax.swing.table.JTableHeader;
 public class MyFrame extends JFrame {
 	static JMenuItem items[] = new JMenuItem[15];
 	JMenu menus[] = new JMenu[4];
-	JTable tab;
+	JTable tab = new JTable();
 	JMenuBar mb = new JMenuBar();
 	JTextPane tp = new JTextPane();
 	JPopupMenu pm = new JPopupMenu();
@@ -72,7 +72,6 @@ public class MyFrame extends JFrame {
 		popupMenu();
 		menusSetup();
 		setVisible(true);
-		PropertiesAccess.getPlan();
 		repaint();
 	}
 

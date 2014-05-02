@@ -98,18 +98,21 @@ public class PropertiesAccess {
 			// This three loops convert the temporary arrays in final arrays
 			// with the good length.
 			if (a != 1) {
+				Utils.existSubject = true;
 				PanelGrid.subject = new String[a];
 				for (int y = 0; y < a; y++) {
 					PanelGrid.subject[y] = subjectTemp[y];
 				}
 			}
 			if (b != 1) {
+				Utils.existRoom = true;
 				PanelGrid.room = new String[b];
 				for (int y = 0; y < b; y++) {
 					PanelGrid.room[y] = roomTemp[y];
 				}
 			}
 			if (c != 1) {
+				Utils.existCommentary = true;
 				PanelGrid.commentary = new String[c];
 				for (int y = 0; y < c; y++) {
 					PanelGrid.commentary[y] = commentaryTemp[y];
@@ -128,7 +131,8 @@ public class PropertiesAccess {
 			groupIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(1, 2));
 			dayIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(7, 8));
 			hour = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(9, 13));
-			hourComplet = stringPropertyName(planProp)[i].toString().substring(9, 11) + ":" + stringPropertyName(planProp)[i].toString().substring(11, 13); // <-------- Erreur
+			hourComplet = stringPropertyName(planProp)[i].toString().substring(9, 11) + ":" + stringPropertyName(planProp)[i].toString().substring(11, 13); // <--------
+																																							// Erreur
 
 			subjectId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(0, 2));
 			roomId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(3, 6));
@@ -151,11 +155,11 @@ public class PropertiesAccess {
 		if (row != -1) {
 			System.err.println("hrehghzthjtrzbfgb    ");
 			Main.f.tab.setValueAt(value, row, dayIndex);
-			addIndexToArray(row, dayIndex, subjectId, roomId, commentaryId, weekIndex, groupId);
+			addIndexToArrays(row, dayIndex, subjectId, roomId, commentaryId, weekIndex, groupId);
 		}
 	}
 
-	static void addIndexToArray(int row, int column, int idSubject, int idRoom, int idCommentary, int weekIndex, int groupId) {
+	static void addIndexToArrays(int row, int column, int idSubject, int idRoom, int idCommentary, int weekIndex, int groupId) {
 		PanelGrid.idSubjectPerCell[row][column] = idSubject;
 		PanelGrid.idRoomPerCell[row][column] = idRoom;
 		PanelGrid.idCommentaryPerCell[row][column] = idCommentary;

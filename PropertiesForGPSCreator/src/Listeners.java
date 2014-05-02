@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class Listeners implements ActionListener, WindowListener, MouseListener {
@@ -20,6 +21,7 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 		if (index != -1) System.out.println("Cliked item : " + MyFrame.items[index].getText() + "(" + index + ")");
 
 		System.out.println("Index = " + index);
+		PropertiesAccess.loadAll();
 		switch (index) {
 		case 0:
 			// Quit
@@ -60,24 +62,36 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 			break;
 		case 7:
 			// Set subject
-			Main.f.isOpen = true;
-			Main.f.isSetOpen = true;
-			Main.f.pm.setVisible(false);
-			Main.f.popupSet = new FramePopupSet(0);
+			//Verify if subjects are added before use they. 
+			if (Utils.existSubject) {
+				Main.f.isOpen = true;
+				Main.f.isSetOpen = true;
+				Main.f.pm.setVisible(false);
+				Main.f.popupSet = new FramePopupSet(0);
+			} else
+				JOptionPane.showMessageDialog(Main.f, "No subject in config file.", "Error", JOptionPane.ERROR_MESSAGE);
 			break;
 		case 8:
 			// Set room
-			Main.f.isOpen = true;
-			Main.f.isSetOpen = true;
-			Main.f.pm.setVisible(false);
-			Main.f.popupSet = new FramePopupSet(1);
+			//Verify if rooms are added before use they. 
+			if (Utils.existRoom) {
+				Main.f.isOpen = true;
+				Main.f.isSetOpen = true;
+				Main.f.pm.setVisible(false);
+				Main.f.popupSet = new FramePopupSet(1);
+			} else
+				JOptionPane.showMessageDialog(Main.f, "No room in config file.", "Error", JOptionPane.ERROR_MESSAGE);
 			break;
 		case 9:
 			// Set commentary
-			Main.f.isOpen = true;
-			Main.f.isSetOpen = true;
-			Main.f.pm.setVisible(false);
-			Main.f.popupSet = new FramePopupSet(2);
+			//Verify if commentaries are added before use they. 
+			if (Utils.existCommentary) {
+				Main.f.isOpen = true;
+				Main.f.isSetOpen = true;
+				Main.f.pm.setVisible(false);
+				Main.f.popupSet = new FramePopupSet(2);
+			} else
+				JOptionPane.showMessageDialog(Main.f, "No commentary in config file.", "Error", JOptionPane.ERROR_MESSAGE);
 			break;
 		default:
 			if (Main.f.isOpen) {

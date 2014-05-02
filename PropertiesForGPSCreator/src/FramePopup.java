@@ -36,7 +36,7 @@ public class FramePopup extends JFrame {
 		getContentPane().setLayout(null);
 
 //		JLabel lblId = new JLabel("id : " + WriteProperties.next[typeIndex]);
-		JLabel lblId = new JLabel("id : " + PropertiesAccess.nbOfIdUse[typeIndex]+1);
+		JLabel lblId = new JLabel("id : " + (PropertiesAccess.nbOfIdUse[typeIndex]+1));
 		JLabel lblType = new JLabel(Utils.type[typeIndex] + " : ");
 		textField_1 = new JTextField();
 		btnNewButton = new JButton(imageForOne);

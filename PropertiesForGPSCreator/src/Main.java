@@ -16,11 +16,12 @@ public class Main {
 				// System.out.println(fonts[i]);
 				// }
 				PanelGrid.fillTable();
-//				LoadProperties.loadPropertiesId();
-//				LoadProperties.loadProperties();
+				// LoadProperties.loadPropertiesId();
+				// LoadProperties.loadProperties();
 				PropertiesAccess.loadAll();
 
 				f = new MyFrame();
+				PropertiesAccess.getPlan();
 
 			}
 		});
