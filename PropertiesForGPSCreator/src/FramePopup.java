@@ -17,30 +17,26 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class FramePopup extends JFrame {
 	public static JTextField textField_1;
-	String[] txtButton = { "Add", "Ajouter" };
+	String[] txtButton = { "Add ", "Ajouter " };
 	private static int typeIndex;
 	ImageIcon imageForOne = new ImageIcon(getClass().getResource("ressources/coeur.jpg"));
 	JButton btnNewButton;
 	boolean isAddOpen;
 
 	public FramePopup(int typeIndexConstructor) {
-		// LoadProperties.loadPropertiesId();
 		PropertiesAccess.loadAll();
 		typeIndex = typeIndexConstructor;
-		if (Utils.langId == 1) FramePopup.typeIndex += 3;
 		setResizable(false);
-		setTitle("Add " + Utils.type[typeIndex].toLowerCase());
-		// WriteProperties.nbOfIDUse = idInProp();
+		setTitle(txtButton[Utils.langId] + Utils.type[Utils.langId][typeIndex].toLowerCase());
 		PropertiesAccess.nbOfIdUse = idInProp();
-		setPreferredSize(new Dimension(250, 150));
+		setPreferredSize(new Dimension(255, 150));
 		getContentPane().setLayout(null);
 
-//		JLabel lblId = new JLabel("id : " + WriteProperties.next[typeIndex]);
 		JLabel lblId = new JLabel("id : " + (PropertiesAccess.nbOfIdUse[typeIndex]+1));
-		JLabel lblType = new JLabel(Utils.type[typeIndex] + " : ");
+		JLabel lblType = new JLabel(Utils.type[Utils.langId][typeIndex] + " : ");
 		textField_1 = new JTextField();
 		btnNewButton = new JButton(imageForOne);
-		btnNewButton.setText(txtButton[Utils.langId] + " " + Utils.type[typeIndex].toLowerCase());
+		btnNewButton.setText(txtButton[Utils.langId] + Utils.type[Utils.langId][typeIndex].toLowerCase());
 		btnNewButton.setHorizontalAlignment(AbstractButton.CENTER);
 		btnNewButton.setHorizontalTextPosition(0);
 		btnNewButton.setBounds(49, 66, imageForOne.getIconWidth(), imageForOne.getIconHeight());
@@ -89,7 +85,6 @@ public class FramePopup extends JFrame {
 	public void validAddingId() {
 		if (!textField_1.getText().isEmpty()) {
 			if (typeIndex == 0 || typeIndex == 1 || typeIndex == 2) {
-				// WriteProperties.saveId(typeIndex);
 				PropertiesAccess.saveTheIdinProp(typeIndex);
 				dispose();
 				System.gc();
@@ -101,12 +96,8 @@ public class FramePopup extends JFrame {
 	}
 
 	public int[] idInProp() {
-//		LoadProperties.loadPropertiesId();
 		PropertiesAccess.loadAll();
 		int s = 1, r = 1, c = 1;
-//		if (LoadProperties.subject != null) s = LoadProperties.subject.length;
-//		if (LoadProperties.room != null) r = LoadProperties.room.length;
-//		if (LoadProperties.commentary != null) c = LoadProperties.commentary.length;
 		if(PanelGrid.subject != null) s = PanelGrid.subject.length;
 		if(PanelGrid.room != null) s = PanelGrid.room.length;
 		if(PanelGrid.commentary != null) s = PanelGrid.commentary.length;

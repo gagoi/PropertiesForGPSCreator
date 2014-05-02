@@ -19,6 +19,7 @@ public class FramePopupSet extends JFrame {
 	JLabel lblType = new JLabel();
 	JLabel lblGroup = new JLabel();
 	JLabel lblWeek = new JLabel();
+	String txt[] = { "Week ", "Semaine " };
 	private int typeIndex;
 	JButton btnNewButton;
 	boolean isSetOpen;
@@ -27,17 +28,17 @@ public class FramePopupSet extends JFrame {
 	public FramePopupSet(int typeIndex) {
 		this.typeIndex = typeIndex;
 		setResizable(false);
-		setTitle(Utils.type[typeIndex]);
+		setTitle(Utils.type[Utils.langId][typeIndex]);
 		setSize(new Dimension(500, 600));
 		getContentPane().setLayout(null);
-		lblType.setText(Utils.type[typeIndex] + " : ");
+		lblType.setText(Utils.type[Utils.langId][typeIndex] + " : ");
 
 		ImageIcon imageForOne = new ImageIcon(getClass().getResource("ressources/coeur.jpg"));
-		btnNewButton = new JButton("Set " + Utils.type[typeIndex].toLowerCase());
+		btnNewButton = new JButton("Set " + Utils.type[Utils.langId][typeIndex].toLowerCase());
 		btnNewButton.setIcon(imageForOne);
 		btnNewButton.setHorizontalAlignment(AbstractButton.CENTER);
 		btnNewButton.setHorizontalTextPosition(0);
-		if (Utils.language.equals("fr")) btnNewButton.setText("Mettre " + Utils.type[typeIndex].toLowerCase());
+		btnNewButton.setText("Mettre " + Utils.type[Utils.langId][typeIndex].toLowerCase());
 		btnNewButton.setBounds(166, 505, imageForOne.getIconWidth(), imageForOne.getIconHeight());
 		btnNewButton.addActionListener(new Listeners());
 		getContentPane().add(btnNewButton);
@@ -64,9 +65,8 @@ public class FramePopupSet extends JFrame {
 		listGroup.setSelectedIndex(0);
 		scrollPane_1.setViewportView(listGroup);
 
-		lblWeek.setText("Week :");
-		if (Utils.language.equals("fr")) lblWeek.setText("Semaine :");
-		lblWeek.setBounds(220, 345, 50, 15);
+		lblWeek.setText(txt[Utils.langId] + ":");
+		lblWeek.setBounds(200, 345, 70, 15);
 		getContentPane().add(lblWeek);
 
 		JScrollPane scrollPane_2 = new JScrollPane();
@@ -116,17 +116,6 @@ public class FramePopupSet extends JFrame {
 		}
 	}
 
-	// public String[] setListByType() {
-	// if (typeIndex == 0 && LoadProperties.subject != null) {
-	// return LoadProperties.subject;
-	// } else if (typeIndex == 1 && LoadProperties.room != null)
-	// return LoadProperties.room;
-	// else if (typeIndex == 2 && LoadProperties.commentary != null)
-	// return LoadProperties.commentary;
-	// else
-	// return truc;
-	// }
-
 	public String[] setListByType() {
 		if (typeIndex == 0 && PanelGrid.subject != null)
 			return PanelGrid.subject;
@@ -164,21 +153,4 @@ public class FramePopupSet extends JFrame {
 		dispose();
 		System.gc();
 	}
-
-	// @Override
-	// public void windowClosing(WindowEvent e) {
-	// int x = Frame_Old.tab.getSelectedRow();
-	// int y = Frame_Old.tab.getSelectedColumn();
-	// if (typeIndex == 0) {
-	// PanelGrid.subjectPerCell[x][y] = null;
-	// PanelGrid.idSubjectPerCell[x][y] = 0;
-	// } else if (typeIndex == 1) {
-	// PanelGrid.roomPerCell[x][y] = null;
-	// PanelGrid.idRoomPerCell[x][y] = 0;
-	// } else if (typeIndex == 2) {
-	// PanelGrid.commentaryPerCell[x][y] = null;
-	// PanelGrid.idCommentaryPerCell[x][y] = 0;
-	// } else
-	// Frame_Old.tab.setValueAt("Error !!", x, y);
-	// }
 }

@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -5,10 +7,13 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class Listeners implements ActionListener, WindowListener, MouseListener {
+	JFrame fHelp = new JFrame("Help");
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		int index = -1;
@@ -29,18 +34,29 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 			break;
 		case 1:
 			// Help
+			JLabel label = new JLabel(Utils.textHelp[Utils.langId]);
+			label.setForeground(Color.WHITE);
+			fHelp.getContentPane().setBackground(Color.black);
+			fHelp.getContentPane().add(label);
+			fHelp.setSize(new Dimension(450, 120));
+			fHelp.setResizable(false);
+			fHelp.setVisible(true);
 			break;
 		case 2:
 			// Translate in english
 			Utils.langId = 0;
 			Utils.language = "en";
-			Main.f.repaint();
+			Main.f.dispose();
+			System.gc();
+			Main.f = new MyFrame();
 			break;
 		case 3:
 			// Translate in french
 			Utils.langId = 1;
 			Utils.language = "fr";
-			Main.f.repaint();
+			Main.f.dispose();
+			System.gc();
+			Main.f = new MyFrame();
 			break;
 		case 4:
 			// Add subject
