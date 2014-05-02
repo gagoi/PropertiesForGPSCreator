@@ -111,7 +111,6 @@ public class FramePopupSet extends JFrame {
 			int y = Main.f.tab.getSelectedColumn();
 			PanelGrid.updateTab(x, y, PanelGrid.subjectPerCell[x][y], PanelGrid.roomPerCell[x][y], PanelGrid.commentaryPerCell[x][y], PanelGrid.groupIdPerCell[x][y],
 					PanelGrid.weekIdPerCell[x][y]);
-			// WriteProperties.modTabToProperties();
 			PropertiesAccess.saveThePlanInProp(x, y);
 		}
 	}

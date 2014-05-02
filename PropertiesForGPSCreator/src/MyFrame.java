@@ -114,7 +114,7 @@ public class MyFrame extends JFrame {
 
 	private void tabSetup() {
 		// Setup tab with a special constructor to set cell uneditable
-		tab = new JTable(PanelGrid.values, PanelGrid.columnName) {
+		tab = new JTable(PanelGrid.values, PanelGrid.columnName[Utils.langId]) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -166,9 +166,14 @@ public class MyFrame extends JFrame {
 
 	void updateTp() {
 		// Set the debug text in the JTextPane tp. And repaint it after.
-		tp.setText("I love Anna <3<3 " + " || Selected cell [" + row + ";" + column + "] || Subject : " + PanelGrid.subjectPerCell[row][column] + "(" + idS + ") | Room : "
-				+ PanelGrid.roomPerCell[row][column] + "(" + idR + ") | Commentary : " + PanelGrid.commentaryPerCell[row][column] + "(" + idC + ") | Week : " + PanelGrid.weekName[idW] + "("
-				+ idW + ") | ");
+		String[] tpTxt = {
+				"I love Anna <3<3 " + " || Selected cell [" + row + ";" + column + "] || Subject : " + PanelGrid.subjectPerCell[row][column] + "(" + idS + ") | Room : "
+						+ PanelGrid.roomPerCell[row][column] + "(" + idR + ") | Commentary : " + PanelGrid.commentaryPerCell[row][column] + "(" + idC + ") | Week : "
+						+ PanelGrid.weekName[idW] + "(" + idW + ") | Group :" + PanelGrid.groupName[PanelGrid.weekIdPerCell[row][column]] + "(" + PanelGrid.groupIdPerCell[row][column] + ") |",
+				"J'aime Anna <3<3 " + " || Cellule sélectionnée [" + row + ";" + column + "] || Matière : " + PanelGrid.subjectPerCell[row][column] + "(" + idS + ") | Salle : "
+						+ PanelGrid.roomPerCell[row][column] + "(" + idR + ") | Commentaire : " + PanelGrid.commentaryPerCell[row][column] + "(" + idC + ") | Semaine : "
+						+ PanelGrid.weekName[idW] + "(" + idW + ") | Groupe :" + PanelGrid.groupName[PanelGrid.weekIdPerCell[row][column]] + "(" + PanelGrid.groupIdPerCell[row][column] + ") |"};
+		tp.setText(tpTxt[Utils.langId]);
 		tp.repaint();
 		this.repaint();
 	}
