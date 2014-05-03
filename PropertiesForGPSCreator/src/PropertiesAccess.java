@@ -164,7 +164,7 @@ public class PropertiesAccess {
 		PanelGrid.idRoomPerCell[row][column] = idRoom;
 		PanelGrid.idCommentaryPerCell[row][column] = idCommentary;
 		PanelGrid.weekIdPerCell[row][column] = weekIndex;
-		PanelGrid.weekIdPerCell[row][column] = groupId;
+		PanelGrid.groupIdPerCell[row][column] = groupId;
 	}
 
 	static void verifyFolderAndFile() {

@@ -20,6 +20,8 @@ public class FramePopupSet extends JFrame {
 	JLabel lblGroup = new JLabel();
 	JLabel lblWeek = new JLabel();
 	String txt[] = { "Week ", "Semaine " };
+	String txt2[] = { "Group ", "Groupe " };
+	String txt3[] = { "Set ", "Mettre" };
 	private int typeIndex;
 	JButton btnNewButton;
 	boolean isSetOpen;
@@ -34,11 +36,10 @@ public class FramePopupSet extends JFrame {
 		lblType.setText(Utils.type[Utils.langId][typeIndex] + " : ");
 
 		ImageIcon imageForOne = new ImageIcon(getClass().getResource("ressources/coeur.jpg"));
-		btnNewButton = new JButton("Set " + Utils.type[Utils.langId][typeIndex].toLowerCase());
+		btnNewButton = new JButton(txt3[Utils.langId] + Utils.type[Utils.langId][typeIndex].toLowerCase());
 		btnNewButton.setIcon(imageForOne);
 		btnNewButton.setHorizontalAlignment(AbstractButton.CENTER);
 		btnNewButton.setHorizontalTextPosition(0);
-		btnNewButton.setText("Mettre " + Utils.type[Utils.langId][typeIndex].toLowerCase());
 		btnNewButton.setBounds(166, 505, imageForOne.getIconWidth(), imageForOne.getIconHeight());
 		btnNewButton.addActionListener(new Listeners());
 		getContentPane().add(btnNewButton);
@@ -52,8 +53,7 @@ public class FramePopupSet extends JFrame {
 		scrollPane.setViewportView(list);
 		getContentPane().add(scrollPane);
 
-		lblGroup.setText("Group :");
-		if (Utils.language.equals("fr")) lblGroup.setText("Groupe :");
+		lblGroup.setText(txt2[Utils.langId] + ":");
 		lblGroup.setBounds(220, 185, 50, 15);
 		getContentPane().add(lblGroup);
 
