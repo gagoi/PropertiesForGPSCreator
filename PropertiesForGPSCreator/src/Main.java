@@ -15,7 +15,7 @@ public class Main {
 				// for (int i = 0; i < fonts.length; i++) {
 				// System.out.println(fonts[i]);
 				// }
-				PanelGrid.fillTable();
+				PanelGrid_Old.fillTable();
 				// LoadProperties.loadPropertiesId();
 				// LoadProperties.loadProperties();
 				PropertiesAccess.loadAll();

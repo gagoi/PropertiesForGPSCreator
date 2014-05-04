@@ -17,23 +17,23 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		} else if (row == x && column == y) {
 			super.setBackground(Color.BLUE);
 
-		} else if (PanelGrid.weekIdPerCell[row][column] == 1) {
+		} else if (PanelGrid_Old.weekIdPerCell[row][column] == 1) {
 			super.setBackground(new Color(255, 200, 255));
 			super.setForeground(Color.BLACK);
 			
-		} else if (PanelGrid.weekIdPerCell[row][column] == 2) {
+		} else if (PanelGrid_Old.weekIdPerCell[row][column] == 2) {
 			super.setBackground(new Color(200, 255, 255));
 			super.setForeground(Color.BLACK);
 			
-		} else if (PanelGrid.weekIdPerCell[row][column] == 3) {
+		} else if (PanelGrid_Old.weekIdPerCell[row][column] == 3) {
 			super.setBackground(new Color(100, 255, 255));
 			super.setForeground(Color.BLACK);
 
-		} else if (PanelGrid.weekIdPerCell[row][column] == 4) {
+		} else if (PanelGrid_Old.weekIdPerCell[row][column] == 4) {
 			super.setBackground(new Color(255, 100, 255));
 			super.setForeground(Color.BLACK);
 
-		} else if (PanelGrid.weekIdPerCell[row][column] == 5) {
+		} else if (PanelGrid_Old.weekIdPerCell[row][column] == 5) {
 			super.setBackground(new Color(255, 255, 100));
 			super.setForeground(Color.BLACK);
 

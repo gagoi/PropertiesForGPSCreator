@@ -99,23 +99,23 @@ public class PropertiesAccess {
 			// with the good length.
 			if (a != 1) {
 				Utils.existSubject = true;
-				PanelGrid.subject = new String[a];
+				Utils.s = new String[a];
 				for (int y = 0; y < a; y++) {
-					PanelGrid.subject[y] = subjectTemp[y];
+					Utils.s[y] = subjectTemp[y];
 				}
 			}
 			if (b != 1) {
 				Utils.existRoom = true;
-				PanelGrid.room = new String[b];
+				Utils.r = new String[b];
 				for (int y = 0; y < b; y++) {
-					PanelGrid.room[y] = roomTemp[y];
+					Utils.r[y] = roomTemp[y];
 				}
 			}
 			if (c != 1) {
 				Utils.existCommentary = true;
-				PanelGrid.commentary = new String[c];
+				Utils.c = new String[c];
 				for (int y = 0; y < c; y++) {
-					PanelGrid.commentary[y] = commentaryTemp[y];
+					Utils.c[y] = commentaryTemp[y];
 				}
 			}
 		}
@@ -146,11 +146,11 @@ public class PropertiesAccess {
 	}
 
 	static void addToJTable(int dayIndex, String hourComplet, int weekIndex, int subjectId, int roomId, int commentaryId, int groupId) {
-		System.out.println(PanelGrid.subject[subjectId] + " - " + PanelGrid.room[roomId] + " - " + PanelGrid.commentary[commentaryId]);
-		String value = PanelGrid.subject[subjectId] + " - " + PanelGrid.room[roomId] + " - " + PanelGrid.commentary[commentaryId];
+		System.out.println(Utils.s[subjectId] + " - " + Utils.r[roomId] + " - " + Utils.c[commentaryId]);
+		String value = Utils.s[subjectId] + " - " + Utils.r[roomId] + " - " + Utils.c[commentaryId];
 		String hourModified = hourComplet.substring(0, 2) + ":" + hourComplet.substring(3, 5);
 		System.out.println("-------------------" + hourComplet + " | " + hourModified + "-------------------");
-		int row = Arrays.asList(PanelGrid.plan).indexOf(hourModified);
+		int row = Arrays.asList(PanelGrid_Old.plan).indexOf(hourModified);
 		System.out.println("Row = " + row + " | Hour modified : " + hourModified + " | Value : " + value + " | Day index : " + dayIndex);
 		if (row != -1) {
 			System.err.println("hrehghzthjtrzbfgb    ");
@@ -160,11 +160,11 @@ public class PropertiesAccess {
 	}
 
 	static void addIndexToArrays(int row, int column, int idSubject, int idRoom, int idCommentary, int weekIndex, int groupId) {
-		PanelGrid.idSubjectPerCell[row][column] = idSubject;
-		PanelGrid.idRoomPerCell[row][column] = idRoom;
-		PanelGrid.idCommentaryPerCell[row][column] = idCommentary;
-		PanelGrid.weekIdPerCell[row][column] = weekIndex;
-		PanelGrid.groupIdPerCell[row][column] = groupId;
+		PanelGrid_Old.idSubjectPerCell[row][column] = idSubject;
+		PanelGrid_Old.idRoomPerCell[row][column] = idRoom;
+		PanelGrid_Old.idCommentaryPerCell[row][column] = idCommentary;
+		PanelGrid_Old.weekIdPerCell[row][column] = weekIndex;
+		PanelGrid_Old.groupIdPerCell[row][column] = groupId;
 	}
 
 	static void verifyFolderAndFile() {
@@ -183,22 +183,22 @@ public class PropertiesAccess {
 		String s, r, c;
 		name = value = s = r = c = null;
 		// Verify the prop. If all is empty, don't save.
-		if (!(PanelGrid.idSubjectPerCell[row][column] == 0) && !(PanelGrid.idRoomPerCell[row][column] == 0) && !(PanelGrid.idCommentaryPerCell[row][column] == 0)) {
-			s = "" + PanelGrid.idSubjectPerCell[row][column];
-			r = "" + PanelGrid.idRoomPerCell[row][column];
-			c = "" + PanelGrid.idCommentaryPerCell[row][column];
+		if (!(PanelGrid_Old.idSubjectPerCell[row][column] == 0) && !(PanelGrid_Old.idRoomPerCell[row][column] == 0) && !(PanelGrid_Old.idCommentaryPerCell[row][column] == 0)) {
+			s = "" + PanelGrid_Old.idSubjectPerCell[row][column];
+			r = "" + PanelGrid_Old.idRoomPerCell[row][column];
+			c = "" + PanelGrid_Old.idCommentaryPerCell[row][column];
 
-			if (PanelGrid.idSubjectPerCell[row][column] == 0) s = "00";
-			if (PanelGrid.idRoomPerCell[row][column] == 0) r = "000";
-			if (PanelGrid.idCommentaryPerCell[row][column] == 0) c = "00";
+			if (PanelGrid_Old.idSubjectPerCell[row][column] == 0) s = "00";
+			if (PanelGrid_Old.idRoomPerCell[row][column] == 0) r = "000";
+			if (PanelGrid_Old.idCommentaryPerCell[row][column] == 0) c = "00";
 
-			if (PanelGrid.idSubjectPerCell[row][column] < 10) s = "0" + PanelGrid.idSubjectPerCell[row][column];
-			if (PanelGrid.idRoomPerCell[row][column] < 10) r = "00" + PanelGrid.idRoomPerCell[row][column];
-			if (PanelGrid.idRoomPerCell[row][column] < 100 && PanelGrid.idRoomPerCell[row][column] >= 10) r = "0" + PanelGrid.idRoomPerCell[row][column];
-			if (PanelGrid.idCommentaryPerCell[row][column] < 10) c = "0" + PanelGrid.idCommentaryPerCell[row][column];
+			if (PanelGrid_Old.idSubjectPerCell[row][column] < 10) s = "0" + PanelGrid_Old.idSubjectPerCell[row][column];
+			if (PanelGrid_Old.idRoomPerCell[row][column] < 10) r = "00" + PanelGrid_Old.idRoomPerCell[row][column];
+			if (PanelGrid_Old.idRoomPerCell[row][column] < 100 && PanelGrid_Old.idRoomPerCell[row][column] >= 10) r = "0" + PanelGrid_Old.idRoomPerCell[row][column];
+			if (PanelGrid_Old.idCommentaryPerCell[row][column] < 10) c = "0" + PanelGrid_Old.idCommentaryPerCell[row][column];
 
 			// Create the property name. Example : G0.W1.D6.1230
-			name = "G" + PanelGrid.groupIdPerCell[row][column] + ".W" + PanelGrid.weekIdPerCell[row][column] + ".D" + column + "." + PanelGrid.plan[row].replace(":", "").toString();
+			name = "G" + PanelGrid_Old.groupIdPerCell[row][column] + ".W" + PanelGrid_Old.weekIdPerCell[row][column] + ".D" + column + "." + PanelGrid_Old.plan[row].replace(":", "").toString();
 			// Create the property value. Example : 12 642 04
 			value = s + "." + r + "." + c;
 			// Set property.

@@ -98,9 +98,9 @@ public class FramePopup extends JFrame {
 	public int[] idInProp() {
 		PropertiesAccess.loadAll();
 		int s = 1, r = 1, c = 1;
-		if(PanelGrid.subject != null) s = PanelGrid.subject.length;
-		if(PanelGrid.room != null) s = PanelGrid.room.length;
-		if(PanelGrid.commentary != null) s = PanelGrid.commentary.length;
+		if(Utils.s != null) s = Utils.s.length;
+		if(Utils.r != null) s = Utils.r.length;
+		if(Utils.c != null) s = Utils.c.length;
 		int a[] = { s, r, c };
 		return a;
 	}

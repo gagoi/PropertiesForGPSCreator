@@ -61,7 +61,7 @@ public class FramePopupSet extends JFrame {
 		scrollPane_1.setBounds(40, 205, 420, 115);
 		getContentPane().add(scrollPane_1);
 
-		listGroup = new JList(PanelGrid.groupName);
+		listGroup = new JList(PanelGrid_Old.groupName);
 		listGroup.setSelectedIndex(0);
 		scrollPane_1.setViewportView(listGroup);
 
@@ -73,7 +73,7 @@ public class FramePopupSet extends JFrame {
 		scrollPane_2.setBounds(40, 365, 420, 115);
 		getContentPane().add(scrollPane_2);
 
-		listWeek = new JList(PanelGrid.groupName);
+		listWeek = new JList(PanelGrid_Old.groupName);
 		listWeek.setSelectedIndex(0);
 		scrollPane_2.setViewportView(listWeek);
 
@@ -104,24 +104,24 @@ public class FramePopupSet extends JFrame {
 	}
 
 	public void onButtonClicked() {
-		if (!list.isSelectionEmpty() || list.getSelectedIndex() == 0) {
+		if (!list.isSelectionEmpty() || list.getSelectedIndex() != 0) {
 			System.out.println("Valider " + getTitle().toLowerCase());
 			setSelectedValue();
 			int x = Main.f.tab.getSelectedRow();
 			int y = Main.f.tab.getSelectedColumn();
-			PanelGrid.updateTab(x, y, PanelGrid.subjectPerCell[x][y], PanelGrid.roomPerCell[x][y], PanelGrid.commentaryPerCell[x][y], PanelGrid.groupIdPerCell[x][y],
-					PanelGrid.weekIdPerCell[x][y]);
+			PanelGrid_Old.updateTab(x, y, PanelGrid_Old.subjectPerCell[x][y], PanelGrid_Old.roomPerCell[x][y], PanelGrid_Old.commentaryPerCell[x][y], PanelGrid_Old.groupIdPerCell[x][y],
+					PanelGrid_Old.weekIdPerCell[x][y]);
 			PropertiesAccess.saveThePlanInProp(x, y);
 		}
 	}
 
 	public String[] setListByType() {
-		if (typeIndex == 0 && PanelGrid.subject != null)
-			return PanelGrid.subject;
-		else if (typeIndex == 1 && PanelGrid.room != null)
-			return PanelGrid.room;
-		else if (typeIndex == 2 && PanelGrid.commentary != null)
-			return PanelGrid.commentary;
+		if (typeIndex == 0 && Utils.s != null)
+			return Utils.s;
+		else if (typeIndex == 1 && Utils.r != null)
+			return Utils.r;
+		else if (typeIndex == 2 && Utils.c != null)
+			return Utils.c;
 		else
 			return truc;
 	}
@@ -137,18 +137,20 @@ public class FramePopupSet extends JFrame {
 		int x = Main.f.tab.getSelectedRow();
 		int y = Main.f.tab.getSelectedColumn();
 		if (typeIndex == 0) {
-			PanelGrid.subjectPerCell[x][y] = (String) list.getSelectedValue();
-			PanelGrid.idSubjectPerCell[x][y] = list.getSelectedIndex();
+			PanelGrid_Old.subjectPerCell[x][y] = (String) list.getSelectedValue();
+			PanelGrid_Old.idSubjectPerCell[x][y] = list.getSelectedIndex();
 		} else if (typeIndex == 1) {
-			PanelGrid.roomPerCell[x][y] = (String) list.getSelectedValue();
-			PanelGrid.idRoomPerCell[x][y] = list.getSelectedIndex();
+			PanelGrid_Old.roomPerCell[x][y] = (String) list.getSelectedValue();
+			PanelGrid_Old.idRoomPerCell[x][y] = list.getSelectedIndex();
 		} else if (typeIndex == 2) {
-			PanelGrid.commentaryPerCell[x][y] = (String) list.getSelectedValue();
-			PanelGrid.idCommentaryPerCell[x][y] = list.getSelectedIndex();
+			PanelGrid_Old.commentaryPerCell[x][y] = (String) list.getSelectedValue();
+			PanelGrid_Old.idCommentaryPerCell[x][y] = list.getSelectedIndex();
 		} else
 			Main.f.tab.setValueAt("Error !!", x, y);
-		PanelGrid.groupIdPerCell[x][y] = listGroup.getSelectedIndex();
-		PanelGrid.weekIdPerCell[x][y] = listWeek.getSelectedIndex();
+		PanelGrid_Old.groupIdPerCell[x][y] = listGroup.getSelectedIndex();
+		PanelGrid_Old.weekIdPerCell[x][y] = listWeek.getSelectedIndex();
+		Main.f.updateValues();
+		Main.f.updateTp();
 		dispose();
 		System.gc();
 	}

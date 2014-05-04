@@ -77,7 +77,7 @@ public class MyFrame extends JFrame {
 
 	@SuppressWarnings("unused")
 	private void variableInit() {
-		int row = tab.getSelectedRow(), column = tab.getSelectedColumn(), idS = PanelGrid.idSubjectPerCell[row][column], idR = PanelGrid.idRoomPerCell[row][column], idC = PanelGrid.idCommentaryPerCell[row][column], idW = PanelGrid.weekIdPerCell[row][column];
+		int row = tab.getSelectedRow(), column = tab.getSelectedColumn(), idS = PanelGrid_Old.idSubjectPerCell[row][column], idR = PanelGrid_Old.idRoomPerCell[row][column], idC = PanelGrid_Old.idCommentaryPerCell[row][column], idW = PanelGrid_Old.weekIdPerCell[row][column];
 	}
 
 	private void createItems() {
@@ -114,7 +114,7 @@ public class MyFrame extends JFrame {
 
 	private void tabSetup() {
 		// Setup tab with a special constructor to set cell uneditable
-		tab = new JTable(PanelGrid.values, PanelGrid.columnName[Utils.langId]) {
+		tab = new JTable(PanelGrid_Old.values, PanelGrid_Old.columnName[Utils.langId]) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -167,12 +167,12 @@ public class MyFrame extends JFrame {
 	void updateTp() {
 		// Set the debug text in the JTextPane tp. And repaint it after.
 		String[] tpTxt = {
-				"I love Anna <3<3 " + " || Selected cell [" + row + ";" + column + "] || Subject : " + PanelGrid.subjectPerCell[row][column] + "(" + idS + ") | Room : "
-						+ PanelGrid.roomPerCell[row][column] + "(" + idR + ") | Commentary : " + PanelGrid.commentaryPerCell[row][column] + "(" + idC + ") | Week : "
-						+ PanelGrid.weekName[idW] + "(" + idW + ") | Group :" + PanelGrid.groupName[PanelGrid.weekIdPerCell[row][column]] + "(" + PanelGrid.groupIdPerCell[row][column] + ") |",
-				"J'aime Anna <3<3 " + " || Cellule sélectionnée [" + row + ";" + column + "] || Matière : " + PanelGrid.subjectPerCell[row][column] + "(" + idS + ") | Salle : "
-						+ PanelGrid.roomPerCell[row][column] + "(" + idR + ") | Commentaire : " + PanelGrid.commentaryPerCell[row][column] + "(" + idC + ") | Semaine : "
-						+ PanelGrid.weekName[idW] + "(" + idW + ") | Groupe :" + PanelGrid.groupName[PanelGrid.weekIdPerCell[row][column]] + "(" + PanelGrid.groupIdPerCell[row][column] + ") |"};
+				"I love Anna <3<3 " + " || Selected cell [" + row + ";" + column + "] || Subject : " + PanelGrid_Old.subjectPerCell[row][column] + "(" + idS + ") | Room : "
+						+ PanelGrid_Old.roomPerCell[row][column] + "(" + idR + ") | Commentary : " + PanelGrid_Old.commentaryPerCell[row][column] + "(" + idC + ") | Week : "
+						+ PanelGrid_Old.weekName[idW] + "(" + idW + ") | Group :" + PanelGrid_Old.groupName[PanelGrid_Old.weekIdPerCell[row][column]] + "(" + PanelGrid_Old.groupIdPerCell[row][column] + ") |",
+				"J'aime Anna <3<3 " + " || Cellule sélectionnée [" + row + ";" + column + "] || Matière : " + PanelGrid_Old.subjectPerCell[row][column] + "(" + idS + ") | Salle : "
+						+ PanelGrid_Old.roomPerCell[row][column] + "(" + idR + ") | Commentaire : " + PanelGrid_Old.commentaryPerCell[row][column] + "(" + idC + ") | Semaine : "
+						+ PanelGrid_Old.weekName[idW] + "(" + idW + ") | Groupe :" + PanelGrid_Old.groupName[PanelGrid_Old.weekIdPerCell[row][column]] + "(" + PanelGrid_Old.groupIdPerCell[row][column] + ") |"};
 		tp.setText(tpTxt[Utils.langId]);
 		tp.repaint();
 		this.repaint();
@@ -181,8 +181,9 @@ public class MyFrame extends JFrame {
 	void updateValues() {
 		this.row = Main.f.tab.getSelectedRow();
 		this.column = Main.f.tab.getSelectedColumn();
-		this.idS = PanelGrid.idSubjectPerCell[row][column];
-		this.idR = PanelGrid.idRoomPerCell[row][column];
-		this.idC = PanelGrid.idCommentaryPerCell[row][column];
+		this.idS = PanelGrid_Old.idSubjectPerCell[row][column];
+		this.idR = PanelGrid_Old.idRoomPerCell[row][column];
+		this.idC = PanelGrid_Old.idCommentaryPerCell[row][column];
+		this.idW = PanelGrid_Old.weekIdPerCell[row][column];
 	}
 }
