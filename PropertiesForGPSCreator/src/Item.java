@@ -1,141 +1,112 @@
 public class Item {
 
-	private String subject, room, commentary, week, group;
-	private int idS, idR, idC, idW, idG, planCordX, planCordY;
+	private int subject, room, commentary;
 
-	public Item(int idS, int idR, int idC, int idW, int idG) {
-		setIdSubject(idS);
-		setIdRoom(idR);
-		setIdCommentary(idC);
-		setIdWeek(idW);
-		setIdGroup(idG);
-		setSubject(Utils.s[idS]);
-		setRoom(Utils.r[idR]);
-		setCommentary(Utils.c[idC]);
+	public Item(int s, int r, int c) {
+		this.subject = s;
+		this.room = r;
+		this.commentary = c;
 	}
 
-	public int getIdSubject() {
-		return idS;
+	public void setAllByString(String prop) {
+		this.subject = Integer.parseInt(prop.substring(0, 2));
+		this.room = Integer.parseInt(prop.substring(3, 6));
+		this.commentary = Integer.parseInt(prop.substring(7, 9));
 	}
 
-	public void setIdSubject(int idS) {
-		this.idS = idS;
-	}
-
-	public int getIdRoom() {
-		return idR;
-	}
-
-	public void setIdRoom(int idR) {
-		this.idR = idR;
-	}
-
-	public int getIdCommentary() {
-		return idC;
-	}
-
-	public void setIdCommentary(int idC) {
-		this.idC = idC;
-	}
-
-	public int getIdWeek() {
-		return idW;
-	}
-
-	public void setIdWeek(int idW) {
-		this.idW = idW;
-	}
-
-	public int getIdGroup() {
-		return idG;
-	}
-
-	public void setIdGroup(int idG) {
-		this.idG = idG;
-	}
-
-	public String getSubject() {
-		return subject;
-	}
-
-	public void setSubject(String subject) {
+	public void setSubject(int subject) {
 		this.subject = subject;
 	}
 
-	public String getRoom() {
-		return room;
-	}
-
-	public void setRoom(String room) {
+	public void setRoom(int room) {
 		this.room = room;
 	}
 
-	public String getCommentary() {
-		return commentary;
-	}
-
-	public void setCommentary(String commentary) {
+	public void setCommentary(int commentary) {
 		this.commentary = commentary;
 	}
 
-	public String getWeek() {
-		return week;
+	public void setAll(int s, int r, int c) {
+		this.subject = s;
+		this.room = r;
+		this.commentary = c;
 	}
 
-	public void setWeek(String week) {
-		this.week = week;
+	public int getSubjectId() {
+		return this.subject;
 	}
 
-	public String getGroup() {
-		return group;
+	public int getRoomId() {
+		return this.room;
 	}
 
-	public void setGroup(String group) {
-		this.group = group;
+	public int getCommentaryId() {
+		return this.commentary;
 	}
 
-	// ------------------------------------------\\
-	public String toString() {
-		if (subject == null && room == null && commentary == null)
-			return "";
+	public String getSubject() {
+		return Utils.sList[this.subject];
+	}
+
+	public String getRoom() {
+		return Utils.rList[this.room];
+	}
+
+	public String getCommentary() {
+		return Utils.cList[this.commentary];
+	}
+
+	public boolean hasSubject() {
+		return this.subject != 0;
+	}
+
+	public boolean hasRoom() {
+		return this.room != 0;
+	}
+
+	public boolean hasCommentary() {
+		return this.commentary != 0;
+	}
+
+	public boolean isItemNotNull() {
+		if (hasSubject() || hasRoom() || hasCommentary())
+			return true;
 		else
-			return ("S:" + subject + " | R:" + room + " | C:" + commentary + " | W:  " + week + " | G:" + group);
+			return false;
 	}
 
-	public String getSubjectOf(String prop){
-		return Utils.s[getIdSubjectOf(prop)];
-	}
-	public int getIdSubjectOf(String prop){
-		return Integer.parseInt(prop.substring(0,2));
-	}
-	
-	public String getRoomOf(String prop){
-		return Utils.r[getIdRoomOf(prop)];
-	}
-	public int getIdRoomOf(String prop){
-		return Integer.parseInt(prop.substring(3,6));
-	}
-	
-	public String getCommentaryOf(String prop){
-		return Utils.c[getIdCommentaryOf(prop)];
-	}
-	public int getIdCommentaryOf(String prop){
-		return Integer.parseInt(prop.substring(7,9));
-	}
-
-	public int getPlanCordX() {
-		return planCordX;
+	public String toStringProp() {
+		String s = "00", r = "000", c = "00";
+		// Properties policy.
+		// Subject
+		if (this.subject < 10)
+			s = "0" + this.subject;
+		else
+			s = "" + this.subject;
+		// Room
+		if (this.room < 10) r = "00" + this.room;
+		if (this.room >= 10 && this.room < 100)
+			r = "0" + this.room;
+		else
+			r = "" + this.room;
+		// Commentary
+		if (this.commentary < 10)
+			c = "0" + this.commentary;
+		else
+			c = "" + this.commentary;
+		String str = s + "." + r + "." + c;
+		return str;
 	}
 
-	public void setPlanCordX(int planCordX) {
-		this.planCordX = planCordX;
+	public String toStringPane() {
+		String str[] = { (" | Subject : " + getSubjectId() + " | Room :" + getRoomId() + " | Commentary : " + getCommentaryId()),
+				(" | Matière : " + getSubjectId() + " | Salle : " + getRoomId() + " | Commentaire : " + getCommentaryId()) };
+
+		return str[Utils.langId];
 	}
 
-	public int getPlanCordY() {
-		return planCordY;
-	}
-
-	public void setPlanCordY(int planCordY) {
-		this.planCordY = planCordY;
+	@Override
+	public String toString() {
+		return "Rien";
 	}
 }

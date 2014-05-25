@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -12,8 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-public class Listeners implements ActionListener, WindowListener, MouseListener {
+public class Listeners implements ActionListener, WindowListener, MouseListener, KeyListener {
 	JFrame fHelp = new JFrame("Help");
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		int index = -1;
@@ -62,23 +65,23 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 			// Add subject
 			Main.f.isOpen = true;
 			Main.f.isAddOpen = true;
-			Main.f.popupAdd = new FramePopup(0);
+			Main.f.popupAdd = new FramePopupAddCommentary(0);
 			break;
 		case 5:
 			// Add room
 			Main.f.isOpen = true;
 			Main.f.isAddOpen = true;
-			Main.f.popupAdd = new FramePopup(1);
+			Main.f.popupAdd = new FramePopupAddCommentary(1);
 			break;
 		case 6:
 			// Add commentary
 			Main.f.isOpen = true;
 			Main.f.isAddOpen = true;
-			Main.f.popupAdd = new FramePopup(2);
+			Main.f.popupAdd = new FramePopupAddCommentary(2);
 			break;
 		case 7:
 			// Set subject
-			//Verify if subjects are added before use they. 
+			// Verify if subjects are added before use they.
 			if (Utils.existSubject) {
 				Main.f.isOpen = true;
 				Main.f.isSetOpen = true;
@@ -89,7 +92,7 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 			break;
 		case 8:
 			// Set room
-			//Verify if rooms are added before use they. 
+			// Verify if rooms are added before use they.
 			if (Utils.existRoom) {
 				Main.f.isOpen = true;
 				Main.f.isSetOpen = true;
@@ -100,7 +103,7 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 			break;
 		case 9:
 			// Set commentary
-			//Verify if commentaries are added before use they. 
+			// Verify if commentaries are added before use they.
 			if (Utils.existCommentary) {
 				Main.f.isOpen = true;
 				Main.f.isSetOpen = true;
@@ -126,8 +129,6 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 
 	@Override
 	public void windowActivated(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -138,32 +139,22 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowIconified(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void windowOpened(WindowEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -171,12 +162,13 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 		System.out.println("----Mouse clicked");
 		if (Main.f.tab.columnAtPoint(arg0.getPoint()) != 0) {
 			Main.f.updateValues();
-			Main.f.updateTp();
-			MyCellRenderer.x = Main.f.tab.rowAtPoint(arg0.getPoint());
-			MyCellRenderer.y = Main.f.tab.columnAtPoint(arg0.getPoint());
+			int x = Main.f.tab.rowAtPoint(arg0.getPoint());
+			int y = Main.f.tab.columnAtPoint(arg0.getPoint());
+			Main.f.tp.setText("Properties here : " + PanelGrid.toNumberOfProp(x, y) + "\r\r");
+			Main.f.tp.setText(Main.f.tp.getText() + PanelGrid.toJTextPane(PanelGrid.getItemsArrayAt(x, y)));
+			Main.f.tab.changeSelection(Main.f.tab.rowAtPoint(arg0.getPoint()), Main.f.tab.columnAtPoint(arg0.getPoint()), false, false);
 			if (SwingUtilities.isRightMouseButton(arg0)) {
 				System.out.println("Button right");
-				Main.f.tab.changeSelection(Main.f.tab.rowAtPoint(arg0.getPoint()), Main.f.tab.columnAtPoint(arg0.getPoint()), false, false);
 				Main.f.pm.show(Main.f.tab, arg0.getX(), arg0.getY());
 			} else {
 				System.out.println("Button Left");
@@ -198,5 +190,25 @@ public class Listeners implements ActionListener, WindowListener, MouseListener 
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		int x = Main.f.tab.getSelectedRow();
+		int y = Main.f.tab.getSelectedColumn();
+		if (arg0.getKeyCode() == 38 && x != 0) x -= 1;
+		if (arg0.getKeyCode() == 40 && x != 47) x += 1;
+		if (arg0.getKeyCode() == 37 && y >= 1) y -= 1;
+		if (arg0.getKeyCode() == 39 && y != 7) y += 1;
+		Main.f.updateTP(x, y);
+		Main.f.repaint();
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
 	}
 }

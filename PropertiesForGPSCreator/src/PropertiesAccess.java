@@ -99,30 +99,30 @@ public class PropertiesAccess {
 			// with the good length.
 			if (a != 1) {
 				Utils.existSubject = true;
-				Utils.s = new String[a];
+				Utils.sList = new String[a];
 				for (int y = 0; y < a; y++) {
-					Utils.s[y] = subjectTemp[y];
+					Utils.sList[y] = subjectTemp[y];
 				}
 			}
 			if (b != 1) {
 				Utils.existRoom = true;
-				Utils.r = new String[b];
+				Utils.rList = new String[b];
 				for (int y = 0; y < b; y++) {
-					Utils.r[y] = roomTemp[y];
+					Utils.rList[y] = roomTemp[y];
 				}
 			}
 			if (c != 1) {
 				Utils.existCommentary = true;
-				Utils.c = new String[c];
+				Utils.cList = new String[c];
 				for (int y = 0; y < c; y++) {
-					Utils.c[y] = commentaryTemp[y];
+					Utils.cList[y] = commentaryTemp[y];
 				}
 			}
 		}
 	}
 
 	static void getPlan() {
-		int dayIndex, hour, weekIndex, subjectId, roomId, commentaryId, groupIndex;
+		int dayIndex, hour, weekIndex, subjectId, roomId, commentaryId, groupIndex, hourIdInPlan;
 		String hourComplet;
 		// Object propArrayRow = stringPropertyName(planProp);
 		// For each values in properties planProp (File : plan.properties) :
@@ -131,40 +131,22 @@ public class PropertiesAccess {
 			groupIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(1, 2));
 			dayIndex = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(7, 8));
 			hour = Integer.parseInt(stringPropertyName(planProp)[i].toString().substring(9, 13));
-			hourComplet = stringPropertyName(planProp)[i].toString().substring(9, 11) + ":" + stringPropertyName(planProp)[i].toString().substring(11, 13); // <--------
-																																							// Erreur
+			hourComplet = stringPropertyName(planProp)[i].toString().substring(9, 11) + ":" + stringPropertyName(planProp)[i].toString().substring(11, 13); // Erreur
 
 			subjectId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(0, 2));
 			roomId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(3, 6));
 			commentaryId = Integer.parseInt(planProp.getProperty(stringPropertyName(planProp)[i].toString()).substring(7, 9));
 
+			hourIdInPlan = Arrays.asList(PanelGrid.plan).indexOf(hourComplet);
+
 			System.out.println(stringPropertyName(planProp)[i]);
-			System.out.println("Group : " + groupIndex + "Week : " + weekIndex + " | Day : " + dayIndex + " | Hour : " + hour + " || Subject ID : " + subjectId + " | Room ID : " + roomId
-					+ " | Commentary Id : " + commentaryId);
-			addToJTable(dayIndex, hourComplet, weekIndex, subjectId, roomId, commentaryId, groupIndex);
+			System.out.println("Group : " + groupIndex + " | Week : " + weekIndex + " | Day : " + dayIndex + " | Hour : " + hour + " - " + hourComplet + "(" + hourIdInPlan
+					+ ") || Subject ID : " + subjectId + " | Room ID : " + roomId + " | Commentary Id : " + commentaryId);
+			PanelGrid.setItemAt(new Item(subjectId, roomId, commentaryId), hourIdInPlan, dayIndex, groupIndex, weekIndex);
+			Main.f.tp.setText("Properties here : " + PanelGrid.toNumberOfProp(hourIdInPlan, dayIndex) + "\r\r");
+			Main.f.tp.setText(Main.f.tp.getText() + PanelGrid.toJTextPane(PanelGrid.getItemsArrayAt(hourIdInPlan, dayIndex)));
+			PanelGrid.updateTab(hourIdInPlan, dayIndex);
 		}
-	}
-
-	static void addToJTable(int dayIndex, String hourComplet, int weekIndex, int subjectId, int roomId, int commentaryId, int groupId) {
-		System.out.println(Utils.s[subjectId] + " - " + Utils.r[roomId] + " - " + Utils.c[commentaryId]);
-		String value = Utils.s[subjectId] + " - " + Utils.r[roomId] + " - " + Utils.c[commentaryId];
-		String hourModified = hourComplet.substring(0, 2) + ":" + hourComplet.substring(3, 5);
-		System.out.println("-------------------" + hourComplet + " | " + hourModified + "-------------------");
-		int row = Arrays.asList(PanelGrid_Old.plan).indexOf(hourModified);
-		System.out.println("Row = " + row + " | Hour modified : " + hourModified + " | Value : " + value + " | Day index : " + dayIndex);
-		if (row != -1) {
-			System.err.println("hrehghzthjtrzbfgb    ");
-			Main.f.tab.setValueAt(value, row, dayIndex);
-			addIndexToArrays(row, dayIndex, subjectId, roomId, commentaryId, weekIndex, groupId);
-		}
-	}
-
-	static void addIndexToArrays(int row, int column, int idSubject, int idRoom, int idCommentary, int weekIndex, int groupId) {
-		PanelGrid_Old.idSubjectPerCell[row][column] = idSubject;
-		PanelGrid_Old.idRoomPerCell[row][column] = idRoom;
-		PanelGrid_Old.idCommentaryPerCell[row][column] = idCommentary;
-		PanelGrid_Old.weekIdPerCell[row][column] = weekIndex;
-		PanelGrid_Old.groupIdPerCell[row][column] = groupId;
 	}
 
 	static void verifyFolderAndFile() {
@@ -178,27 +160,29 @@ public class PropertiesAccess {
 		}
 	}
 
-	static void saveThePlanInProp(int row, int column) {
+	static void saveThePlanInProp(int x, int y, int a, int b) {
+		System.err.println("SAVE");
 		String name, value;
 		String s, r, c;
 		name = value = s = r = c = null;
+		Item item = PanelGrid.getItemOf(x, y, a, b);
 		// Verify the prop. If all is empty, don't save.
-		if (!(PanelGrid_Old.idSubjectPerCell[row][column] == 0) && !(PanelGrid_Old.idRoomPerCell[row][column] == 0) && !(PanelGrid_Old.idCommentaryPerCell[row][column] == 0)) {
-			s = "" + PanelGrid_Old.idSubjectPerCell[row][column];
-			r = "" + PanelGrid_Old.idRoomPerCell[row][column];
-			c = "" + PanelGrid_Old.idCommentaryPerCell[row][column];
+		if (item.isItemNotNull()) {
+			s = "" + item.getSubjectId();
+			r = "" + item.getRoomId();
+			c = "" + item.getCommentaryId();
 
-			if (PanelGrid_Old.idSubjectPerCell[row][column] == 0) s = "00";
-			if (PanelGrid_Old.idRoomPerCell[row][column] == 0) r = "000";
-			if (PanelGrid_Old.idCommentaryPerCell[row][column] == 0) c = "00";
+			if (item.getSubjectId() == 0) s = "00";
+			if (item.getRoomId() == 0) r = "000";
+			if (item.getCommentaryId() == 0) c = "00";
 
-			if (PanelGrid_Old.idSubjectPerCell[row][column] < 10) s = "0" + PanelGrid_Old.idSubjectPerCell[row][column];
-			if (PanelGrid_Old.idRoomPerCell[row][column] < 10) r = "00" + PanelGrid_Old.idRoomPerCell[row][column];
-			if (PanelGrid_Old.idRoomPerCell[row][column] < 100 && PanelGrid_Old.idRoomPerCell[row][column] >= 10) r = "0" + PanelGrid_Old.idRoomPerCell[row][column];
-			if (PanelGrid_Old.idCommentaryPerCell[row][column] < 10) c = "0" + PanelGrid_Old.idCommentaryPerCell[row][column];
+			if (item.getSubjectId() < 10) s = "0" + item.getSubjectId();
+			if (item.getRoomId() < 10) r = "00" + item.getRoomId();
+			if (item.getRoomId() < 100 && item.getRoomId() >= 10) r = "0" + item.getRoomId();
+			if (item.getCommentaryId() < 10) c = "0" + item.getCommentaryId();
 
 			// Create the property name. Example : G0.W1.D6.1230
-			name = "G" + PanelGrid_Old.groupIdPerCell[row][column] + ".W" + PanelGrid_Old.weekIdPerCell[row][column] + ".D" + column + "." + PanelGrid_Old.plan[row].replace(":", "").toString();
+			name = "G" + a + ".W" + b + ".D" + y + "." + PanelGrid.plan[x].replace(":", "").toString();
 			// Create the property value. Example : 12 642 04
 			value = s + "." + r + "." + c;
 			// Set property.
@@ -206,6 +190,7 @@ public class PropertiesAccess {
 
 			// Save the prop just set before.
 			try {
+				System.err.println("STORE");
 				planProp.store(new FileOutputStream(plan), null);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -214,10 +199,12 @@ public class PropertiesAccess {
 
 	}
 
-	static void saveTheIdinProp(int typeIndex) {
+	static void saveTheIdinProp(int typeIndex, int networkId) {
 		String[] type = { "Subject", "Room", "Commentary" };
-		idProp.setProperty(type[typeIndex].toLowerCase() + "." + nbOfIdUse[typeIndex], FramePopup.textField_1.getText());
-		System.out.println(type[typeIndex].toLowerCase() + "." + nbOfIdUse[typeIndex] + "=" + FramePopup.textField_1.getText());
+		String network = "" + networkId;
+		if (networkId < 10) network = "0" + networkId;
+		idProp.setProperty(type[typeIndex].toLowerCase() + "." + nbOfIdUse[typeIndex], (network + "." + FramePopupAddCommentary.textField_1.getText()));
+		System.out.println(type[typeIndex].toLowerCase() + "." + nbOfIdUse[typeIndex] + "=" + network + "." + FramePopupAddCommentary.textField_1.getText());
 		nbOfIdUse[typeIndex]++;
 		try {
 			idProp.store(new FileOutputStream(id), null);

@@ -1,7 +1,7 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 
@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,13 +19,12 @@ import javax.swing.table.JTableHeader;
 public class MyFrame extends JFrame {
 	static JMenuItem items[] = new JMenuItem[15];
 	JMenu menus[] = new JMenu[4];
-	JTable tab = new JTable();
-	JMenuBar mb = new JMenuBar();
-	JTextPane tp = new JTextPane();
-	JPopupMenu pm = new JPopupMenu();
-	JPanel panel = new JPanel();
-	FramePopup popupAdd;
+	JMenuBar mb;
+	JPopupMenu pm;
+	FramePopupAddCommentary popupAdd;
 	FramePopupSet popupSet;
+	JTable tab;
+	JTextPane tp;
 	public boolean isOpen, isSetOpen, isAddOpen;
 
 	String[][] itemsNames = {
@@ -38,83 +36,51 @@ public class MyFrame extends JFrame {
 	String[][] columnsNames = { { "Hours", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" },
 			{ "Heures", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" } };
 	String[] titleNames = { "GPS properties editor", "GPS configuration éditeur" };
-	int row, column, idS, idR, idC, idW;
+	int row, column;
 
 	Color b = Color.BLACK, w = Color.WHITE;
-	Font font = new Font("Kristen ITC", Font.BOLD, 15);
+	Font font = new Font("Kristen ITC", Font.TRUETYPE_FONT, 12);
 
 	public MyFrame() {
+		setLayout(null);
+		setPreferredSize(new Dimension(1400, 842));
 		tabSetup();
 		createItems();
-		panel.setLayout(getContentPane().getLayout());
-		setContentPane(panel);
-
-		setResizable(true);
-		setTitle(titleNames[Utils.langId]);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JScrollPane scrollPane = new JScrollPane(tab);
 		scrollPane.setBackground(b);
 		scrollPane.getVerticalScrollBar().setBackground(Color.DARK_GRAY);
+		add(scrollPane);
+		JTableHeader tableHeader = tab.getTableHeader();
+		add(tableHeader);
 
-		getContentPane().add(tab.getTableHeader(), BorderLayout.NORTH);
-		getContentPane().add(scrollPane);
-		getContentPane().add(tp, BorderLayout.SOUTH);
-		tp.setText("I love Anna <3<3<3");
+		tp = new JTextPane();
+		updateTP(0, 1);
+		tp.setForeground(w);
+		tp.setBackground(b);
+		tp.setFont(font);
 
+		JScrollPane scrollPane2 = new JScrollPane(tp);
+		scrollPane2.setBackground(b);
+		add(scrollPane2);
+		setResizable(false);
+		setTitle(titleNames[Utils.langId]);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		getContentPane().setLayout(new GridLayout());
 		Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("ressources/iconGPS.png"));
 		setIconImage(icon);
 
-		setPreferredSize(new Dimension(1500, 720));
-		setMaximumSize(new Dimension(tab.getX(), tab.getY()));
 		pack();
 		variableInit();
-		updateTp();
 		popupMenu();
 		menusSetup();
 		setVisible(true);
 		repaint();
 	}
 
-	@SuppressWarnings("unused")
-	private void variableInit() {
-		int row = tab.getSelectedRow(), column = tab.getSelectedColumn(), idS = PanelGrid_Old.idSubjectPerCell[row][column], idR = PanelGrid_Old.idRoomPerCell[row][column], idC = PanelGrid_Old.idCommentaryPerCell[row][column], idW = PanelGrid_Old.weekIdPerCell[row][column];
-	}
-
-	private void createItems() {
-		// Create all items for menus like popup or menu bar. Set the name of
-		// each item using langId and item id in array : items[].
-		for (int i = 0; i < items.length; i++) {
-			items[i] = new JMenuItem(itemsNames[Utils.langId][i]);
-			items[i].setBackground(b);
-			items[i].setForeground(w);
-			items[i].addActionListener(new Listeners());
-
-		}
-		// Create all menus which used in popup or menu bar. Set the name of
-		// each item using langId and item id in array : menus[].
-		for (int i = 0; i < menus.length; i++) {
-			menus[i] = new JMenu(menusNames[Utils.langId][i]);
-			menus[i].setBackground(b);
-			menus[i].setForeground(w);
-			menus[i].setOpaque(true);
-		}
-		// Set the name of table header using langId and item id in array :
-		// columnsNames[].
-		for (int i = 0; i < columnsNames.length; i++) {
-			tab.getColumnModel().getColumn(i).setHeaderValue(columnsNames[Utils.langId][i]);
-		}
-		// Set properties of JTextPane tp.
-		tp.setForeground(w);
-		tp.setBackground(b);
-		tp.setFont(font);
-		// Set properties of JMenuBar mb.
-		mb.setForeground(w);
-		mb.setBackground(b);
-	}
-
 	private void tabSetup() {
 		// Setup tab with a special constructor to set cell uneditable
-		tab = new JTable(PanelGrid_Old.values, PanelGrid_Old.columnName[Utils.langId]) {
+		tab = new JTable(PanelGrid.valuesString, PanelGrid.columnName[Utils.langId]) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -137,7 +103,45 @@ public class MyFrame extends JFrame {
 		tab.setDefaultRenderer(Object.class, new MyCellRenderer());
 		// Set listener in class Listeners, where all listeners are.
 		tab.addMouseListener(new Listeners());
+		tab.addKeyListener(new Listeners());
 		PropertiesAccess.loadAll();
+		PanelGrid.updateAllTab();
+	}
+
+	@SuppressWarnings("unused")
+	private void variableInit() {
+		int row = tab.getSelectedRow(), column = tab.getSelectedColumn();
+	}
+
+	private void createItems() {
+		mb = new JMenuBar();
+		pm = new JPopupMenu();
+		tp = new JTextPane();
+		// Create all items for menus like popup or menu bar. Set the name of
+		// each item using langId and item id in array : items[].
+		for (int i = 0; i < items.length; i++) {
+			items[i] = new JMenuItem(itemsNames[Utils.langId][i]);
+			items[i].setBackground(b);
+			items[i].setForeground(w);
+			items[i].addActionListener(new Listeners());
+
+		}
+		// Create all menus which used in popup or menu bar. Set the name of
+		// each item using langId and item id in array : menus[].
+		for (int i = 0; i < menus.length; i++) {
+			menus[i] = new JMenu(menusNames[Utils.langId][i]);
+			menus[i].setBackground(b);
+			menus[i].setForeground(w);
+			menus[i].setOpaque(true);
+		}
+		// Set the name of table header using langId and item id in array :
+		// columnsNames[].
+		for (int i = 0; i < columnsNames.length; i++) {
+			tab.getColumnModel().getColumn(i).setHeaderValue(columnsNames[Utils.langId][i]);
+		}
+		// Set properties of JMenuBar mb.
+		mb.setForeground(w);
+		mb.setBackground(b);
 	}
 
 	private void popupMenu() {
@@ -164,26 +168,13 @@ public class MyFrame extends JFrame {
 		mb.repaint();
 	}
 
-	void updateTp() {
-		// Set the debug text in the JTextPane tp. And repaint it after.
-		String[] tpTxt = {
-				"I love Anna <3<3 " + " || Selected cell [" + row + ";" + column + "] || Subject : " + PanelGrid_Old.subjectPerCell[row][column] + "(" + idS + ") | Room : "
-						+ PanelGrid_Old.roomPerCell[row][column] + "(" + idR + ") | Commentary : " + PanelGrid_Old.commentaryPerCell[row][column] + "(" + idC + ") | Week : "
-						+ PanelGrid_Old.weekName[idW] + "(" + idW + ") | Group :" + PanelGrid_Old.groupName[PanelGrid_Old.weekIdPerCell[row][column]] + "(" + PanelGrid_Old.groupIdPerCell[row][column] + ") |",
-				"J'aime Anna <3<3 " + " || Cellule sélectionnée [" + row + ";" + column + "] || Matière : " + PanelGrid_Old.subjectPerCell[row][column] + "(" + idS + ") | Salle : "
-						+ PanelGrid_Old.roomPerCell[row][column] + "(" + idR + ") | Commentaire : " + PanelGrid_Old.commentaryPerCell[row][column] + "(" + idC + ") | Semaine : "
-						+ PanelGrid_Old.weekName[idW] + "(" + idW + ") | Groupe :" + PanelGrid_Old.groupName[PanelGrid_Old.weekIdPerCell[row][column]] + "(" + PanelGrid_Old.groupIdPerCell[row][column] + ") |"};
-		tp.setText(tpTxt[Utils.langId]);
-		tp.repaint();
-		this.repaint();
-	}
-
 	void updateValues() {
 		this.row = Main.f.tab.getSelectedRow();
 		this.column = Main.f.tab.getSelectedColumn();
-		this.idS = PanelGrid_Old.idSubjectPerCell[row][column];
-		this.idR = PanelGrid_Old.idRoomPerCell[row][column];
-		this.idC = PanelGrid_Old.idCommentaryPerCell[row][column];
-		this.idW = PanelGrid_Old.weekIdPerCell[row][column];
+	}
+
+	void updateTP(int x, int y) {
+		tp.setText("Properties here : " + PanelGrid.toNumberOfProp(x, y) + "\r\r");
+		tp.setText(tp.getText() + PanelGrid.toJTextPane(PanelGrid.getItemsArrayAt(x, y)));
 	}
 }
