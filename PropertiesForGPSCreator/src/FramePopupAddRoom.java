@@ -5,64 +5,64 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List;
+import java.text.NumberFormat;
 
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.SpinnerListModel;
 import javax.swing.SwingConstants;
-import javax.swing.JSpinner;
 
 @SuppressWarnings("serial")
 public class FramePopupAddRoom extends JFrame {
 	public static JTextField textField_1;
 	String[] txtButton = { "Add ", "Ajouter " };
-	private static int typeIndex;
 	ImageIcon imageForOne = new ImageIcon(getClass().getResource("ressources/coeur.jpg"));
 	JButton btnNewButton;
 	boolean isAddOpen;
-	JSpinner spinner;
+	private JFormattedTextField textFieldX, textFieldY;
+	private JLabel lblCoordX;
+	KeyListener listener = new KeyListener() {
 
-	public FramePopupAddRoom(int typeIndexConstructor) {
+		@Override
+		public void keyPressed(KeyEvent e) {
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			if (e.getKeyChar() == Event.ENTER) validAddingId();
+		}
+	};
+
+	public FramePopupAddRoom() {
 		PropertiesAccess.loadAll();
-		typeIndex = typeIndexConstructor;
-		setTitle(txtButton[Utils.langId] + Utils.type[Utils.langId][typeIndex].toLowerCase());
+		setTitle(txtButton[Utils.langId] + Utils.type[Utils.langId][1].toLowerCase());
 		PropertiesAccess.nbOfIdUse = idInProp();
 		setPreferredSize(new Dimension(255, 220));
 		getContentPane().setLayout(null);
+		addWindowListener(new Listeners());
 
-		JLabel lblId = new JLabel("id : " + (PropertiesAccess.nbOfIdUse[typeIndex]));
-		JLabel lblType = new JLabel(Utils.type[Utils.langId][typeIndex] + " : ");
+		JLabel lblId = new JLabel("id : " + (PropertiesAccess.nbOfIdUse[1]));
+		JLabel lblType = new JLabel(Utils.type[Utils.langId][1] + " : ");
 		textField_1 = new JTextField();
 		btnNewButton = new JButton(imageForOne);
-		btnNewButton.setText(txtButton[Utils.langId] + Utils.type[Utils.langId][typeIndex].toLowerCase());
+		btnNewButton.setText(txtButton[Utils.langId] + Utils.type[Utils.langId][1].toLowerCase());
 		btnNewButton.setHorizontalAlignment(AbstractButton.CENTER);
 		btnNewButton.setHorizontalTextPosition(0);
-		btnNewButton.setBounds(55, 113, imageForOne.getIconWidth(), imageForOne.getIconHeight());
+		btnNewButton.setBounds(55, 121, imageForOne.getIconWidth(), imageForOne.getIconHeight());
 		lblId.setBounds(100, 10, 45, 15);
 		lblType.setBounds(10, 36, 90, 15);
 		lblType.setHorizontalAlignment(JLabel.RIGHT);
 		textField_1.setBounds(110, 33, 85, 20);
-		textField_1.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				if (e.getKeyChar() == Event.ENTER) validAddingId();
-			}
-		});
+		textField_1.addKeyListener(listener);
 
 		btnNewButton.addActionListener(new Listeners());
 
@@ -82,35 +82,53 @@ public class FramePopupAddRoom extends JFrame {
 		textField_1.setForeground(Color.WHITE);
 		getContentPane().setBackground(Color.BLACK);
 
-		JLabel lblNetwork = new JLabel("Network : ");
-		lblNetwork.setForeground(Color.WHITE);
-		lblNetwork.setBounds(10, 65, 90, 15);
-		lblNetwork.setHorizontalAlignment(AbstractButton.RIGHT);
-		getContentPane().add(lblNetwork);
+		NumberFormat format = NumberFormat.getIntegerInstance();
+		format.setParseIntegerOnly(true);
+		format.setMaximumIntegerDigits(9999);
 
-		String[] networkId = new String[100];
-		for (int i = 0; i < networkId.length; i++) {
-			networkId[i] = "" + i;
-		}
-		SpinnerListModel networkModel = new SpinnerListModel(networkId);
-		spinner = new JSpinner(networkModel);
-		spinner.setBounds(110, 64, 85, 20);
-		getContentPane().add(spinner);
+		lblCoordX = new JLabel("Coordonate X");
+		lblCoordX.setForeground(Color.WHITE);
+		lblCoordX.setBounds(10, 65, 90, 15);
+		lblCoordX.setHorizontalAlignment(AbstractButton.RIGHT);
+		getContentPane().add(lblCoordX);
 
+		textFieldX = new JFormattedTextField(format);
+		textFieldX.setBounds(109, 64, 86, 20);
+		getContentPane().add(textFieldX);
+		textFieldX.setColumns(10);
+		textFieldX.addKeyListener(listener);
+
+		textFieldY = new JFormattedTextField(format);
+		textFieldY.setBounds(109, 95, 86, 20);
+		getContentPane().add(textFieldY);
+		textFieldY.setColumns(10);
+		textFieldY.addKeyListener(listener);
+
+		JLabel lblCoordY = new JLabel("Coordonate Y");
+		lblCoordY.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCoordY.setForeground(Color.WHITE);
+		lblCoordY.setBounds(10, 95, 90, 15);
+		getContentPane().add(lblCoordY);
+		setResizable(false);
 		setVisible(true);
 
 	}
 
 	public void validAddingId() {
-		if (!textField_1.getText().isEmpty()) {
-			if (typeIndex == 0 || typeIndex == 1 || typeIndex == 2) {
-				PropertiesAccess.saveTheIdinProp(typeIndex, Integer.parseInt(spinner.getValue().toString()));
+		if (!textField_1.getText().isEmpty() && !(textFieldX.getText().isEmpty()) && !(textFieldY.getText().isEmpty())) {
+			String xString = textFieldX.getText().replaceAll("\\u00A0", "");
+			String yString = textFieldY.getText().replaceAll("\\u00A0", "");
+			System.out.println(xString + " || " + yString);
+			if (xString.length() < 5 && yString.length() < 5) {
+				PropertiesAccess.saveTheIdRoominProp(textField_1.getText(), xString, yString);
 				dispose();
 				System.gc();
-				Main.f.isOpen = false;
-			}
+				Main.f.isAddRoomOpen = false;
+				Main.f.isWindowOpen = false;
+			} else
+				JOptionPane.showMessageDialog(this, "Coord x and y must be lower in 10000 ", "Error", JOptionPane.ERROR_MESSAGE);
 		} else {
-			JOptionPane.showMessageDialog(this, "Your " + getTitle().toLowerCase() + " is invalid.", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Your " + Utils.type[Utils.langId][1] + " is invalid.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

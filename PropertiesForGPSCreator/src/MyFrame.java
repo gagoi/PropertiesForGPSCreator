@@ -21,11 +21,13 @@ public class MyFrame extends JFrame {
 	JMenu menus[] = new JMenu[4];
 	JMenuBar mb;
 	JPopupMenu pm;
-	FramePopupAddCommentary popupAdd;
+	FramePopupAddRoom popupAddRoom;
+	FramePopupAddSubject popupAddSubject;
+	FramePopupAddCommentary popupAddCommentary;
 	FramePopupSet popupSet;
 	JTable tab;
 	JTextPane tp;
-	public boolean isOpen, isSetOpen, isAddOpen;
+	public boolean isWindowOpen, isSetOpen, isAddSubjectOpen, isAddRoomOpen, isAddCommentaryOpen;
 
 	String[][] itemsNames = {
 			{ "Quit", "Help", "English", "Français", "Add subject", "Add room", "Add commentary", "Set subject", "Set room", "Set commentary", "Group A", "Group B", "Group 1", "Group 2",

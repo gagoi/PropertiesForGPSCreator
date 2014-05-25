@@ -20,15 +20,10 @@ public class Listeners implements ActionListener, WindowListener, MouseListener,
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		int index = -1;
-		System.out.println("\r--------------------");
-		System.out.println("Action Performed || " + arg0.getSource());
 		Object src = arg0.getSource();
 		for (int i = 0; (i < MyFrame.items.length) && (index == -1); i++) {
 			if (src == MyFrame.items[i]) index = i;
 		}
-		if (index != -1) System.out.println("Cliked item : " + MyFrame.items[index].getText() + "(" + index + ")");
-
-		System.out.println("Index = " + index);
 		PropertiesAccess.loadAll();
 		switch (index) {
 		case 0:
@@ -41,7 +36,7 @@ public class Listeners implements ActionListener, WindowListener, MouseListener,
 			label.setForeground(Color.WHITE);
 			fHelp.getContentPane().setBackground(Color.black);
 			fHelp.getContentPane().add(label);
-			fHelp.setSize(new Dimension(450, 120));
+			fHelp.setSize(new Dimension(450, 190));
 			fHelp.setResizable(false);
 			fHelp.setVisible(true);
 			break;
@@ -63,68 +58,79 @@ public class Listeners implements ActionListener, WindowListener, MouseListener,
 			break;
 		case 4:
 			// Add subject
-			Main.f.isOpen = true;
-			Main.f.isAddOpen = true;
-			Main.f.popupAdd = new FramePopupAddCommentary(0);
+			if (!Main.f.isWindowOpen) {
+				Main.f.isWindowOpen = true;
+				Main.f.isAddSubjectOpen = true;
+				Main.f.popupAddSubject = new FramePopupAddSubject();
+			} else
+				JOptionPane.showMessageDialog(Main.f, "Another window is open.", "Error", JOptionPane.ERROR_MESSAGE);
 			break;
 		case 5:
 			// Add room
-			Main.f.isOpen = true;
-			Main.f.isAddOpen = true;
-			Main.f.popupAdd = new FramePopupAddCommentary(1);
+			if (!Main.f.isWindowOpen) {
+				Main.f.isWindowOpen = true;
+				Main.f.isAddRoomOpen = true;
+				Main.f.popupAddRoom = new FramePopupAddRoom();
+			} else
+				JOptionPane.showMessageDialog(Main.f, "Another window is open.", "Error", JOptionPane.ERROR_MESSAGE);
 			break;
 		case 6:
 			// Add commentary
-			Main.f.isOpen = true;
-			Main.f.isAddOpen = true;
-			Main.f.popupAdd = new FramePopupAddCommentary(2);
+			if (!Main.f.isWindowOpen) {
+				Main.f.isWindowOpen = true;
+				Main.f.isAddCommentaryOpen = true;
+				Main.f.popupAddCommentary = new FramePopupAddCommentary();
+			} else
+				JOptionPane.showMessageDialog(Main.f, "Another window is open.", "Error", JOptionPane.ERROR_MESSAGE);
 			break;
 		case 7:
 			// Set subject
 			// Verify if subjects are added before use they.
-			if (Utils.existSubject) {
-				Main.f.isOpen = true;
+			if (Utils.existSubject && !Main.f.isWindowOpen) {
+				Main.f.isWindowOpen = true;
 				Main.f.isSetOpen = true;
 				Main.f.pm.setVisible(false);
 				Main.f.popupSet = new FramePopupSet(0);
 			} else
-				JOptionPane.showMessageDialog(Main.f, "No subject in config file.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(Main.f, "No subject in config file. Or another window is open.", "Error", JOptionPane.ERROR_MESSAGE);
 			break;
 		case 8:
 			// Set room
 			// Verify if rooms are added before use they.
-			if (Utils.existRoom) {
-				Main.f.isOpen = true;
+			if (Utils.existRoom && !Main.f.isWindowOpen) {
+				Main.f.isWindowOpen = true;
 				Main.f.isSetOpen = true;
 				Main.f.pm.setVisible(false);
 				Main.f.popupSet = new FramePopupSet(1);
 			} else
-				JOptionPane.showMessageDialog(Main.f, "No room in config file.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(Main.f, "No room in config file. Or another window is open.", "Error", JOptionPane.ERROR_MESSAGE);
 			break;
 		case 9:
 			// Set commentary
 			// Verify if commentaries are added before use they.
-			if (Utils.existCommentary) {
-				Main.f.isOpen = true;
+			if (Utils.existCommentary && !Main.f.isWindowOpen) {
+				Main.f.isWindowOpen = true;
 				Main.f.isSetOpen = true;
 				Main.f.pm.setVisible(false);
 				Main.f.popupSet = new FramePopupSet(2);
 			} else
-				JOptionPane.showMessageDialog(Main.f, "No commentary in config file.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(Main.f, "No commentary in config file. Or another window is open.", "Error", JOptionPane.ERROR_MESSAGE);
 			break;
 		default:
-			if (Main.f.isOpen) {
-				if (Main.f.isAddOpen) {
-					Main.f.popupAdd.validAddingId();
-				} else if (Main.f.isSetOpen) {
-					System.out.println("Set Popup validate");
+			if (Main.f.isWindowOpen) {
+				if (Main.f.isAddSubjectOpen)
+					Main.f.popupAddSubject.validAddingId();
+				else if (Main.f.isAddRoomOpen)
+					Main.f.popupAddRoom.validAddingId();
+				else if (Main.f.isAddCommentaryOpen)
+					Main.f.popupAddCommentary.validAddingId();
+				else if (Main.f.isSetOpen) {
 					Main.f.popupSet.onButtonClicked();
 				}
+				break;
 			}
-			break;
+			index = -1;
 		}
-		System.out.println("isOpen = " + Main.f.isOpen);
-		index = -1;
 	}
 
 	@Override
@@ -133,12 +139,18 @@ public class Listeners implements ActionListener, WindowListener, MouseListener,
 
 	@Override
 	public void windowClosed(WindowEvent arg0) {
-		Main.f.isOpen = false;
-		System.out.println("isOpen = " + Main.f.isOpen);
 	}
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
+		Main.f.isWindowOpen = false;
+		if (arg0.getSource() == Main.f.popupSet)
+			Main.f.isSetOpen = false;
+		else if (arg0.getSource() == Main.f.popupAddCommentary)
+			Main.f.isAddCommentaryOpen = false;
+		else if (arg0.getSource() == Main.f.popupAddRoom)
+			Main.f.isAddRoomOpen = false;
+		else if (arg0.getSource() == Main.f.popupAddSubject) Main.f.isAddSubjectOpen = false;
 	}
 
 	@Override
@@ -159,7 +171,6 @@ public class Listeners implements ActionListener, WindowListener, MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		System.out.println("----Mouse clicked");
 		if (Main.f.tab.columnAtPoint(arg0.getPoint()) != 0) {
 			Main.f.updateValues();
 			int x = Main.f.tab.rowAtPoint(arg0.getPoint());
@@ -168,10 +179,7 @@ public class Listeners implements ActionListener, WindowListener, MouseListener,
 			Main.f.tp.setText(Main.f.tp.getText() + PanelGrid.toJTextPane(PanelGrid.getItemsArrayAt(x, y)));
 			Main.f.tab.changeSelection(Main.f.tab.rowAtPoint(arg0.getPoint()), Main.f.tab.columnAtPoint(arg0.getPoint()), false, false);
 			if (SwingUtilities.isRightMouseButton(arg0)) {
-				System.out.println("Button right");
 				Main.f.pm.show(Main.f.tab, arg0.getX(), arg0.getY());
-			} else {
-				System.out.println("Button Left");
 			}
 		}
 	}

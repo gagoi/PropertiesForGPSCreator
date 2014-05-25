@@ -5,7 +5,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
@@ -13,34 +12,33 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerListModel;
-import javax.swing.SwingConstants;
-import javax.swing.JSpinner;
 
 @SuppressWarnings("serial")
 public class FramePopupAddSubject extends JFrame {
 	public static JTextField textField_1;
 	String[] txtButton = { "Add ", "Ajouter " };
-	private static int typeIndex;
 	ImageIcon imageForOne = new ImageIcon(getClass().getResource("ressources/coeur.jpg"));
 	JButton btnNewButton;
 	boolean isAddOpen;
 	JSpinner spinner;
 
-	public FramePopupAddSubject(int typeIndexConstructor) {
+	public FramePopupAddSubject() {
 		PropertiesAccess.loadAll();
-		typeIndex = typeIndexConstructor;
-		setTitle(txtButton[Utils.langId] + Utils.type[Utils.langId][typeIndex].toLowerCase());
+		setTitle(txtButton[Utils.langId] + Utils.type[Utils.langId][0].toLowerCase());
 		PropertiesAccess.nbOfIdUse = idInProp();
 		setPreferredSize(new Dimension(255, 220));
 		getContentPane().setLayout(null);
+		addWindowListener(new Listeners());
+		setResizable(false);
 
-		JLabel lblId = new JLabel("id : " + (PropertiesAccess.nbOfIdUse[typeIndex]));
-		JLabel lblType = new JLabel(Utils.type[Utils.langId][typeIndex] + " : ");
+		JLabel lblId = new JLabel("id : " + (PropertiesAccess.nbOfIdUse[0]));
+		JLabel lblType = new JLabel(Utils.type[Utils.langId][0] + " : ");
 		textField_1 = new JTextField();
 		btnNewButton = new JButton(imageForOne);
-		btnNewButton.setText(txtButton[Utils.langId] + Utils.type[Utils.langId][typeIndex].toLowerCase());
+		btnNewButton.setText(txtButton[Utils.langId] + Utils.type[Utils.langId][0].toLowerCase());
 		btnNewButton.setHorizontalAlignment(AbstractButton.CENTER);
 		btnNewButton.setHorizontalTextPosition(0);
 		btnNewButton.setBounds(55, 113, imageForOne.getIconWidth(), imageForOne.getIconHeight());
@@ -103,12 +101,11 @@ public class FramePopupAddSubject extends JFrame {
 
 	public void validAddingId() {
 		if (!textField_1.getText().isEmpty()) {
-			if (typeIndex == 0 || typeIndex == 1 || typeIndex == 2) {
-				PropertiesAccess.saveTheIdinProp(typeIndex, Integer.parseInt(spinner.getValue().toString()));
-				dispose();
-				System.gc();
-				Main.f.isOpen = false;
-			}
+			PropertiesAccess.saveTheIdSubjectinProp(textField_1.getText(), Integer.parseInt(spinner.getValue().toString()));
+			dispose();
+			System.gc();
+			Main.f.isAddSubjectOpen = false;
+			Main.f.isWindowOpen = false;
 		} else {
 			JOptionPane.showMessageDialog(this, "Your " + getTitle().toLowerCase() + " is invalid.", "Error", JOptionPane.ERROR_MESSAGE);
 		}

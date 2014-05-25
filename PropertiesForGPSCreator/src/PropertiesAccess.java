@@ -44,7 +44,6 @@ public class PropertiesAccess {
 	static void loadIdAndplan() {
 		// Try to load the properties files.
 		try {
-			System.out.println("\rLoad");
 			// Load the file and setup the properties object (idProp and
 			// planProp).
 			idProp.load(new FileInputStream(id));
@@ -161,7 +160,6 @@ public class PropertiesAccess {
 	}
 
 	static void saveThePlanInProp(int x, int y, int a, int b) {
-		System.err.println("SAVE");
 		String name, value;
 		String s, r, c;
 		name = value = s = r = c = null;
@@ -199,13 +197,44 @@ public class PropertiesAccess {
 
 	}
 
-	static void saveTheIdinProp(int typeIndex, int networkId) {
-		String[] type = { "Subject", "Room", "Commentary" };
+	static void saveTheIdRoominProp(String room, String coordX, String coordY) {
+		if (coordX.length() == 1)
+			coordX = "000" + coordX;
+		else if (coordX.length() == 2)
+			coordX = "00" + coordX;
+		else if (coordX.length() == 3) coordX = "0" + coordX;
+		if (coordY.length() == 1)
+			coordY = "000" + coordY;
+		else if (coordY.length() == 2)
+			coordY = "00" + coordY;
+		else if (coordY.length() == 3) coordY = "0" + coordY;
+		idProp.setProperty("room" + "." + nbOfIdUse[1], (coordX + "." + coordY + "." + room));
+		System.out.println("room" + "." + nbOfIdUse[1] + "=" + coordX + "." + coordY + "." + room);
+		nbOfIdUse[1]++;
+		try {
+			idProp.store(new FileOutputStream(id), null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	static void saveTheIdCommentaryinProp(String commentary) {
+		idProp.setProperty("commentary" + "." + nbOfIdUse[2], commentary);
+		System.out.println("commentary" + "." + nbOfIdUse[2] + "=" + commentary);
+		nbOfIdUse[2]++;
+		try {
+			idProp.store(new FileOutputStream(id), null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	static void saveTheIdSubjectinProp(String subject, int networkId) {
 		String network = "" + networkId;
 		if (networkId < 10) network = "0" + networkId;
-		idProp.setProperty(type[typeIndex].toLowerCase() + "." + nbOfIdUse[typeIndex], (network + "." + FramePopupAddCommentary.textField_1.getText()));
-		System.out.println(type[typeIndex].toLowerCase() + "." + nbOfIdUse[typeIndex] + "=" + network + "." + FramePopupAddCommentary.textField_1.getText());
-		nbOfIdUse[typeIndex]++;
+		idProp.setProperty("subject" + "." + nbOfIdUse[0], (network + "." + subject));
+		System.out.println("subject" + "." + nbOfIdUse[0] + "=" + network + "." + subject);
+		nbOfIdUse[0]++;
 		try {
 			idProp.store(new FileOutputStream(id), null);
 		} catch (IOException e) {
