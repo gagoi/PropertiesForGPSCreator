@@ -2,11 +2,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Properties;
+
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 public class PropertiesAccess {
 	// These values are using to load the properties.
@@ -68,6 +71,9 @@ public class PropertiesAccess {
 		// These int are using to got the number of values with each
 		// parameters (example : a = number of subject in properties file)
 		int a = 1, b = 1, c = 1;
+		ArrayList l = new ArrayList();
+		l.add("truc");
+		Object[] t = l.toArray();
 
 		// If file isn't empty we can get all in it.
 		if (idArray != null) {
@@ -93,27 +99,27 @@ public class PropertiesAccess {
 				} else
 					System.out.println("ID not valid");
 			}
-
 			// This three loops convert the temporary arrays in final arrays
 			// with the good length.
 			if (a != 1) {
 				Utils.existSubject = true;
-				Utils.sList = new String[a];
-				for (int y = 0; y < a; y++) {
-					Utils.sList[y] = subjectTemp[y];
+				Utils.sList = new IdSubject[a];
+				for (int y = 1; y < a; y++) {
+					Utils.sList[y] = new IdSubject(subjectTemp[y].substring(3), Integer.parseInt(subjectTemp[y].substring(0, 2)));
 				}
 			}
 			if (b != 1) {
 				Utils.existRoom = true;
-				Utils.rList = new String[b];
-				for (int y = 0; y < b; y++) {
-					Utils.rList[y] = roomTemp[y];
+				Utils.rList = new IdRoom[b];
+				for (int y = 1; y < b; y++) {
+					Utils.rList[y] = new IdRoom(roomTemp[y].substring(11), Integer.parseInt(roomTemp[y].substring(0, 4)), Integer.parseInt(roomTemp[y].substring(5, 9)));
+					System.out.println(y + "=" + Utils.rList[y]);
 				}
 			}
 			if (c != 1) {
 				Utils.existCommentary = true;
 				Utils.cList = new String[c];
-				for (int y = 0; y < c; y++) {
+				for (int y = 1; y < c; y++) {
 					Utils.cList[y] = commentaryTemp[y];
 				}
 			}

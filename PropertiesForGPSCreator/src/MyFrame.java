@@ -176,7 +176,8 @@ public class MyFrame extends JFrame {
 	}
 
 	void updateTP(int x, int y) {
-		tp.setText("Properties here : " + PanelGrid.toNumberOfProp(x, y) + "\r\r");
+		String txt[] = {"Properties here : ", "Propriétés ici : "};
+		tp.setText(txt[Utils.langId] + PanelGrid.toNumberOfProp(x, y) + "\r\r");
 		tp.setText(tp.getText() + PanelGrid.toJTextPane(PanelGrid.getItemsArrayAt(x, y)));
 	}
 }

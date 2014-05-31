@@ -44,11 +44,11 @@ public class Item {
 		return this.commentary;
 	}
 
-	public String getSubject() {
+	public IdSubject getSubject() {
 		return Utils.sList[this.subject];
 	}
 
-	public String getRoom() {
+	public IdRoom getRoom() {
 		return Utils.rList[this.room];
 	}
 

@@ -104,7 +104,7 @@ public class FramePopupSet extends JFrame {
 	}
 
 	public void onButtonClicked() {
-		if (!list.isSelectionEmpty() || (list.getSelectedIndex() + 1) != 0) {
+		if (!list.isSelectionEmpty() || (list.getSelectedIndex()) != 0) {
 			System.out.println("Valider " + getTitle().toLowerCase());
 			setSelectedValue_New();
 			int x = Main.f.tab.getSelectedRow();
@@ -113,13 +113,13 @@ public class FramePopupSet extends JFrame {
 			int b = listWeek.getSelectedIndex();
 			switch (typeIndex) {
 			case 0:
-				PanelGrid.getItemOf(x, y, a, b).setSubject((list.getSelectedIndex() + 1));
+				PanelGrid.getItemOf(x, y, a, b).setSubject((list.getSelectedIndex()));
 				break;
 			case 1:
-				PanelGrid.getItemOf(x, y, a, b).setRoom((list.getSelectedIndex() + 1));
+				PanelGrid.getItemOf(x, y, a, b).setRoom((list.getSelectedIndex()));
 				break;
 			case 2:
-				PanelGrid.getItemOf(x, y, a, b).setCommentary((list.getSelectedIndex() + 1));
+				PanelGrid.getItemOf(x, y, a, b).setCommentary((list.getSelectedIndex()));
 				break;
 
 			default:
@@ -127,15 +127,28 @@ public class FramePopupSet extends JFrame {
 			}
 			PanelGrid.updateTab(x, y);
 			PropertiesAccess.saveThePlanInProp(x, y, a, b);
+			Main.f.isWindowOpen = false;
+			Main.f.isSetOpen = false;
 		}
 	}
 
 	public String[] setListByType() {
-		if (typeIndex == 0 && Utils.sList != null)
-			return Utils.sList;
-		else if (typeIndex == 1 && Utils.rList != null)
-			return Utils.rList;
-		else if (typeIndex == 2 && Utils.cList != null)
+		System.err.println("setListByType()");
+		if (typeIndex == 0 && Utils.sList != null) {
+			String[] a = new String[Utils.sList.length-1];
+			for (int i = 1; i < Utils.sList.length; i++) {
+				System.out.println("i=" + i);
+				System.out.println(Utils.sList[i].getValue());
+				a[i-1] = Utils.sList[i].getValue();
+			}
+			return a;
+		} else if (typeIndex == 1 && Utils.rList != null) {
+			String[] a = new String[Utils.rList.length-1];
+			for (int i = 1; i < Utils.rList.length; i++) {
+				a[i-1] = Utils.rList[i].getValue();
+			}
+			return a;
+		} else if (typeIndex == 2 && Utils.cList != null)
 			return Utils.cList;
 		else
 			return truc;

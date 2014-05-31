@@ -136,8 +136,8 @@ public class FramePopupAddRoom extends JFrame {
 		PropertiesAccess.loadAll();
 		int s = 1, r = 1, c = 1;
 		if (Utils.s != null) s = Utils.s.length;
-		if (Utils.r != null) s = Utils.r.length;
-		if (Utils.c != null) s = Utils.c.length;
+		if (Utils.r != null) r = Utils.r.length;
+		if (Utils.c != null) c = Utils.c.length;
 		int a[] = { s, r, c };
 		return a;
 	}
