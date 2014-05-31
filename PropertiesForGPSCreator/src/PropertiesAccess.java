@@ -71,9 +71,6 @@ public class PropertiesAccess {
 		// These int are using to got the number of values with each
 		// parameters (example : a = number of subject in properties file)
 		int a = 1, b = 1, c = 1;
-		ArrayList l = new ArrayList();
-		l.add("truc");
-		Object[] t = l.toArray();
 
 		// If file isn't empty we can get all in it.
 		if (idArray != null) {
