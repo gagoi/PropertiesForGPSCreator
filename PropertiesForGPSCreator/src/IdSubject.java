@@ -1,8 +1,8 @@
 public class IdSubject {
 	private String value;
-	private int network;
+	private Network network;
 
-	public IdSubject(String value, int network) {
+	public IdSubject(String value, Network network) {
 		this.value = value;
 		this.network = network;
 	}
@@ -15,16 +15,16 @@ public class IdSubject {
 		this.value = value;
 	}
 
-	public void setNetwork(int network) {
+	public void setNetwork(Network network) {
 		this.network = network;
 	}
 
-	public int getNetwork() {
+	public Network getNetwork() {
 		return this.network;
 	}
 
 	@Override
 	public String toString() {
-		return (getValue() + "|" + getNetwork());
+		return (getValue() + "|" + getNetwork().getName());
 	}
 }

@@ -2,14 +2,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Properties;
-
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 public class PropertiesAccess {
 	// These values are using to load the properties.
@@ -70,7 +67,7 @@ public class PropertiesAccess {
 	static void transformTempIdArrayToFinalIDArray() {
 		// These int are using to got the number of values with each
 		// parameters (example : a = number of subject in properties file)
-		int a = 1, b = 1, c = 1;
+		int a = 1, b = 1, c = 1, d = 1;
 
 		// If file isn't empty we can get all in it.
 		if (idArray != null) {
@@ -79,6 +76,7 @@ public class PropertiesAccess {
 			String[] subjectTemp = new String[stringPropertyName(idProp).length + 1];
 			String[] roomTemp = new String[stringPropertyName(idProp).length + 1];
 			String[] commentaryTemp = new String[stringPropertyName(idProp).length + 1];
+			String[] networkTemp = new String[stringPropertyName(idProp).length + 1];
 
 			// This loop is for get and tidy up the properties in
 			// idArray[] in
@@ -93,16 +91,25 @@ public class PropertiesAccess {
 				} else if (idArray[i].toString().contains("commentary")) {
 					commentaryTemp[c] = idProp.getProperty((String) idArray[i]);
 					c++;
+				} else if (idArray[i].toString().contains("network")) {
+					networkTemp[d] = idProp.getProperty((String) idArray[i]);
 				} else
 					System.out.println("ID not valid");
 			}
 			// This three loops convert the temporary arrays in final arrays
 			// with the good length.
+			if (d != 1) {
+				Utils.existNetwork = true;
+				Utils.nList = new Network[d];
+				for (int y = 0; y < d; y++) {
+					Utils.nList[y] = new Network(networkTemp[y].substring(2), Integer.parseInt(networkTemp[y].substring(0, 1)) == 0 ? false : true);
+				}
+			}
 			if (a != 1) {
 				Utils.existSubject = true;
 				Utils.sList = new IdSubject[a];
 				for (int y = 1; y < a; y++) {
-					Utils.sList[y] = new IdSubject(subjectTemp[y].substring(3), Integer.parseInt(subjectTemp[y].substring(0, 2)));
+					Utils.sList[y] = new IdSubject(subjectTemp[y].substring(3), Utils.nList[Integer.parseInt(subjectTemp[y].substring(0, 2))]);
 				}
 			}
 			if (b != 1) {
@@ -244,6 +251,7 @@ public class PropertiesAccess {
 			e.printStackTrace();
 		}
 	}
+
 
 	static void loadAll() {
 		verifyFolderAndFile();
